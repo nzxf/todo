@@ -1,2 +1,2 @@
 # todo
-To Do List: The Odin Project
+Making a To Do List web: The Odin Project
