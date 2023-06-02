@@ -76,73 +76,48 @@ body {
 }
 
 .list-container {
-    width: 100%;
+  width: 100%;
   height: auto;
   background-color: rgba(128, 128, 128, 0.384);
   padding: 10px;
 }
 
 .add-list-button {
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.13);
-    height: 25px;
-    text-align: center;
-    padding: 3px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.13);
+  height: 25px;
+  text-align: center;
+  padding: 3px;
 }
 
 .add-project-button {
-    padding: 10px;
-    margin: 5px 0;
+  cursor: pointer;
 
-    cursor: pointer;
-    width: 100%;
-    font-weight: bold;
-    min-height: 35px;
-    background-color: rgba(255, 255, 255, 0.397);
-}
-
-
-/* 
-.button-container {
-    border: solid 1px grey;
-    width: 60px;
-    display: flex;
-    justify-content: space-between;
-}
-
-button {
-  width: 25px;
-  height: 25px;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  background-color: white;
-  border-radius: 50%;
   padding: 10px;
+  margin: 5px 0;
+
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  min-height: 35px;
+  background-color: rgba(255, 255, 255, 0.397);
 }
 
-.edit-button {
-  background-size: 16px;
-  background-image: url('./images/edit.png');
-}
-.edit-button:hover {
-  background-color: orange;
-  filter: invert(1);
-}
-.edit-button:active {
-  background-color: blue;
-  filter: invert(0);
+.delete-container {
+  display: flex;
+  justify-content: end;
 }
 
 .delete-button {
-  background-size: 18px;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+
+  border-radius: 50%;
   background-image: url('./images/delete.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 17.5px;
+
+  opacity: .75;
 }
-.delete-button:hover {
-  background-color: rgb(59, 248, 255);
-  filter: invert(1);
-}
-.delete-button:active {
-  background-color: red;
-  filter: invert(0);
-} */
