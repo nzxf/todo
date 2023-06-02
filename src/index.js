@@ -34,10 +34,21 @@ const fillData = (data, parent) => {
         listContainer,
         data[i].content[j].text,
         'list-text'
-      );
-    }
+        );
+      }
+    elMaker('div', projectContainer, 'Add a list', 'add-list-button')
   }
+  const addProjectContainer = elMaker('div', parent, '', 'add-project-container');
+  elMaker('div', addProjectContainer, 'Add a project', 'add-project-button')
 };
 
 const mainBody = elMaker('div', content, '', 'main-body');
 fillData(allProjects, mainBody);
+
+// const makeButtons = (parent) => {
+//   const butttonContainer = elMaker('div', parent, '', 'button-container')
+//   const edit =  elMaker('button', butttonContainer, '', 'edit-button')
+//   const del = elMaker('button', butttonContainer, '', 'delete-button')
+// }
+
+makeButtons(mainBody)

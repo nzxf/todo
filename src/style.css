@@ -1,73 +1,148 @@
+@font-face {
+  font-family: 'myFont';
+  src: url('./fonts/font.ttf');
+}
+
 * {
-    box-sizing: border-box;
-    margin: 0;
-    border: 0;
-    padding: 0;
-    color: rgb(97, 97, 97);
-    /* border: solid 1px grey; */
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-family: 'myFont';
+  color: rgb(97, 97, 97);
+  /* border: solid 1px grey; */
 }
 
 body {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-    /* background-image: url('/src/images/background.jpg'); */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  /* background-image: url('/src/images/background.jpg'); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .content {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
 
-    display: grid;
-    grid-template-rows: 35px 1fr;
+  display: grid;
+  grid-template-rows: 35px 1fr;
 }
 
 .navbar {
-    width: 100%;
-    background-color: black;
+  width: 100%;
+  background-color: black;
 
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 10px;
-    padding: 7.5px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  padding: 7.5px;
 }
 
 .main-body {
-    padding: 15px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 170px);
-    gap: 15px;
+  padding: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 170px);
+  gap: 15px;
 }
 
-.project-container {
-    height: fit-content;
-    background-color: rgb(214, 214, 214);
-    padding: 10px;
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
+.project-container,
+.add-project-container {
+  height: fit-content;
+  background-color: rgb(214, 214, 214);
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.project-container > div {
+  margin: 5px 0;
 }
 
 .project-name {
-    width: 100%;
-    min-height: 40px;
-    background-color: rgba(255, 255, 255, 0.397);
-    text-align: end;
-    padding: 10px;
+  width: 100%;
+  font-weight: bold;
+  min-height: 35px;
+  background-color: rgba(255, 255, 255, 0.397);
+  padding: 10px;
 }
 
 .list-container {
     width: 100%;
-    height: auto;
-    background-color: rgba(128, 128, 128, 0.384);
-    padding: 10px;
-    margin: 7.5px 0;
+  height: auto;
+  background-color: rgba(128, 128, 128, 0.384);
+  padding: 10px;
 }
+
+.add-list-button {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.13);
+    height: 25px;
+    text-align: center;
+    padding: 3px;
+}
+
+.add-project-button {
+    padding: 10px;
+    margin: 5px 0;
+
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    min-height: 35px;
+    background-color: rgba(255, 255, 255, 0.397);
+}
+
+
+/* 
+.button-container {
+    border: solid 1px grey;
+    width: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+  width: 25px;
+  height: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  background-color: white;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.edit-button {
+  background-size: 16px;
+  background-image: url('./images/edit.png');
+}
+.edit-button:hover {
+  background-color: orange;
+  filter: invert(1);
+}
+.edit-button:active {
+  background-color: blue;
+  filter: invert(0);
+}
+
+.delete-button {
+  background-size: 18px;
+  background-image: url('./images/delete.png');
+}
+.delete-button:hover {
+  background-color: rgb(59, 248, 255);
+  filter: invert(1);
+}
+.delete-button:active {
+  background-color: red;
+  filter: invert(0);
+} */
