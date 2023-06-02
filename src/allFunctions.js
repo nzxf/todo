@@ -13,9 +13,16 @@ const functions = (() => {
     parent.appendChild(el);
     return el;
   };
-  return { elMaker, greet };
+  //NAVBAR
+  const makeNavbar = (parent) => {
+    const navbar = elMaker('div', parent, '', 'navbar');
+    const navStart = elMaker('div', navbar, 'start', 'nav-start');
+    const navCenter = elMaker('div', navbar, 'center', 'nav-center');
+    const navEnd = elMaker('div', navbar, 'end', 'nav-end');
+  };
+  // CLOSURE
+  return { greet, elMaker, makeNavbar };
 })();
-
 
 
 // const addInput = (parent) => {
@@ -27,6 +34,5 @@ const functions = (() => {
 //   const inputContent = elMaker('input', form);
 // };
 // addInput(content);
-
 
 export { functions };
