@@ -63,6 +63,10 @@ body {
   justify-content: start;
 }
 
+.add-project-container>div>button {
+  min-height: 69px;
+}
+
 .project-container > div {
   margin: 5px 0;
 }
@@ -82,44 +86,33 @@ body {
   padding: 10px;
 }
 
-/* .add-list-button {
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.13);
-  height: 25px;
-  text-align: center;
-  padding: 3px;
-} */
-
-.add-project-button {
-  cursor: pointer;
-
-  padding: 10px;
-  margin: 5px 0;
-
-  cursor: pointer;
-  width: 100%;
-  font-weight: bold;
-  min-height: 35px;
-  background-color: rgba(255, 255, 255, 0.397);
-}
-
-.delete-container {
+.button-container {
   display: flex;
   justify-content: end;
 }
 
+.edit-button,
 .delete-button {
   cursor: pointer;
   width: 25px;
   height: 25px;
+  margin-left: 3.5px;
 
   border-radius: 50%;
-  background-image: url('./images/delete.png');
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 17.5px;
   
   opacity: 0.75;
+}
+
+.edit-button {
+  background-image: url('./images/edit.png');
+  background-size: 16px;
+}
+
+.delete-button {
+  background-image: url('./images/delete.png');
+  background-size: 17.5px;
 }
 
 .add-container {

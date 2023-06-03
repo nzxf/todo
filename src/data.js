@@ -1,11 +1,11 @@
 // DUE (empty = 1 day from now)
-let dueTime = (hour = 0, date = 1, month = 0, year = 0) => {
+let timeCreation = () => {
   let result = [];
   result.push(
-    new Date().getHours() + hour,
-    new Date().getDate() + date,
-    new Date().getMonth() + month,
-    new Date().getFullYear() + year
+    new Date().getHours(),
+    new Date().getDate(),
+    new Date().getMonth(),
+    new Date().getFullYear()
   );
   return result;
 };
@@ -17,7 +17,7 @@ const Project = (name, content) => {
 
 let allProjects = [];
 
-const addList = (name, title, text, due = dueTime()) => {
+const addList = (name, title, text, created = timeCreation()) => {
   if (allProjects.find((project) => project.name == name)) {
     // console.log('Add it to the existed project');
     let projectIndex = allProjects.findIndex(
@@ -26,22 +26,23 @@ const addList = (name, title, text, due = dueTime()) => {
     allProjects[projectIndex].content.push({
       title: title,
       text: text,
-      due: due,
+      created: created,
     });
   } else {
     // console.log('Uuuuh, this is a new project');
     allProjects.push({
       name: name,
-      content: [{ title: title, text: text, due: due }],
+      content: [{ title: title, text: text, creted: created }],
     });
   }
 };
 
 addList('personal', 'pet', 'Walk Shiro for 30 minutes', [0, 11, 5, 2023]);
 addList('social', 'give', 'Volunteer in charity act');
-addList('work', 'bring', 'Give back friend denim jacket');
+addList('work', 'laptop', 'For presentation project');
 addList('personal', 'shop', 'Buy bread, chips, and towel', [3, 14, 9, 2023]);
 addList('social', 'bbq', 'Talk about the upcoming BBQ party');
-addList('', 'read', 'Buy programming book');
+addList('school', 'read', 'Buy programming book');
+addList('work', 'tie', 'wear tie for big meeting')
 
 export { allProjects };
