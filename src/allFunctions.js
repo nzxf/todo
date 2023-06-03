@@ -13,6 +13,12 @@ const functions = (() => {
     parent.appendChild(el);
     return el;
   };
+  // CHILD REMOVER
+  const childRemover = (parent) => {
+    while (parent.hasChildNodes()) {
+      parent.removeChild(parent.children[0]);
+    }
+  };
   //NAVBAR
   const makeNavbar = (parent) => {
     const navbar = elMaker('div', parent, '', 'navbar');
@@ -21,18 +27,7 @@ const functions = (() => {
     const navEnd = elMaker('div', navbar, 'end', 'nav-end');
   };
   // CLOSURE
-  return { greet, elMaker, makeNavbar };
+  return { greet, childRemover, elMaker, makeNavbar };
 })();
-
-
-// const addInput = (parent) => {
-//   const container = elMaker('div', parent, 'add new', 'input-container');
-//   const form = elMaker('form', container);
-//   const labelTitle = elMaker('label', form, 'Title');
-//   const inputTitle = elMaker('input', form);
-//   const labelContent = elMaker('label', form, 'Content');
-//   const inputContent = elMaker('input', form);
-// };
-// addInput(content);
 
 export { functions };
