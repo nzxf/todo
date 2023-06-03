@@ -82,7 +82,7 @@ const fillData = (data, parent) => {
     // BUTTONS (PROJECT)
     const buttonContainer = elMaker('div', projectContainer, '', 'button-container');
     editButton(data, buttonContainer, data, i);
-    deleteButton(data, buttonContainer, data);
+    deleteButton(data, buttonContainer, data, i);
     // FILL PROJECT
     const projectName = elMaker('div', projectContainer, data[i].name.toUpperCase(), 'project-name');
     if (data[i].content) {
