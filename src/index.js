@@ -10,6 +10,21 @@ const makeNavbar = functions.makeNavbar;
 const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
 
+const refresh = (data) => {
+  childRemover(document.querySelector('.main-body'));
+  fillData(data, document.querySelector('.main-body'));
+};
+
+const translateTime = (timeArray, string) => {
+  if (string === 'time') {
+    return timeArray.slice(0, 2).join(':')
+  } else {
+  return timeArray.slice(2).join('/')
+  }
+};
+
+translateTime([4,34,44,34,4,4355])
+
 // DELETE BUTTON MAKER
 const deleteButton = (data, parent, targetArr, targetIndex) => {
   const deleteBtn = elMaker('button', parent, '', 'delete-button');
@@ -49,21 +64,21 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
   submit.addEventListener('click', function (event) {
     event.preventDefault();
     // EDIT PROJECT
-    if (data[indexProject].name === 'editable1') {
-      //
+    if (indexList == undefined) {
       data.splice(indexProject, 1, {
         name: document.querySelector('.name-input').value,
         content: data[indexProject].content,
       });
     }
     // EDIT LIST
-    else if (data[indexProject].content[indexList].title === 'editable2') {
+    else {
       data[indexProject].content.splice(indexList, 1, {
         title: document.querySelector('.title-input').value,
         text: document.querySelector('.text-input').value,
         created: timeCreation(),
       });
     }
+    // UPDATE DATA DISPLAY
     childRemover(parent);
     return fillData(data, document.querySelector('.main-body'));
   });
@@ -88,23 +103,22 @@ const addInput = (data, parent, classNameArray, indexProject, indexList) => {
     const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
     const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
   }
-  return submitAddButton(data, parent, indexProject, indexList); // FIXME: submitting two tipes of data/ refresh when submit?
+  return submitAddButton(data, parent, indexProject, indexList);
 };
 
 const editButton = (data, parent, indexProject, indexList) => {
   const editBtn = elMaker('button', parent, '', 'edit-button');
   editBtn.addEventListener('mouseup', function () {
+    // PROJECT
     if (indexList == undefined) {
       const topProjectX = document.querySelector(`.top-project-${indexProject}`);
       childRemover(topProjectX);
       editInput(data, topProjectX, ['name'], indexProject, indexList);
-      data[indexProject].name = 'editable1'; //FIXME:
     } else {
       // LIST
       const listContainerX = document.querySelector(`.list-container-${indexProject}-${indexList}`);
       childRemover(listContainerX);
       editInput(data, listContainerX, ['title', 'text'], indexProject, indexList);
-      data[indexProject].content[indexList].title = 'editable2'; //FIXME:
     }
   });
 };
@@ -145,7 +159,8 @@ const fillData = (data, parent) => {
         elMaker('div', midList, data[i].content[j].text, 'list-text');
         // BOTTOM LIST
         const bottomList = elMaker('div', listContainer, '', 'bottom-list');
-        elMaker('div', bottomList, data[i].content[j].created, 'list-time');
+        elMaker('div', bottomList, translateTime(data[i].content[j].created, 'time'), 'list-time');
+        elMaker('div', bottomList, translateTime(data[i].content[j].created, 'date'), 'list-date');
       }
     }
     // BOTTOM PROJECT

@@ -4,7 +4,13 @@ const functions = (() => {
   // TIME CREATED
   const timeCreation = () => {
     let result = [];
-    result.push(new Date().getHours(), new Date().getDate(), new Date().getMonth(), new Date().getFullYear());
+    result.push(
+      new Date().getMinutes(),
+      new Date().getHours(),
+      new Date().getDate(),
+      new Date().getMonth(),
+      new Date().getFullYear()
+    );
     return result;
   };
   // ELEMENT MAKER
@@ -28,9 +34,13 @@ const functions = (() => {
   //NAVBAR
   const makeNavbar = (parent) => {
     const navbar = elMaker('div', parent, '', 'navbar');
-    const navStart = elMaker('div', navbar, 'start', 'nav-start');
-    const navCenter = elMaker('div', navbar, 'center', 'nav-center');
-    const navEnd = elMaker('div', navbar, 'end', 'nav-end');
+    const navStart = elMaker('div', navbar, '', 'nav-start');
+    const webIcon = elMaker('div', navStart, '', 'app-icon');
+    const webName = elMaker('div', navStart, 'TODO', 'app-name');
+    const navCenter = elMaker('div', navbar, '', 'nav-center');
+    const navEnd = elMaker('div', navbar, '', 'nav-end');
+    const usericon = elMaker('div', navEnd, '', 'user-icon');
+    const userName = elMaker('div', navEnd, 'yourname', 'user-name');
   };
   // CLOSURE
   return { greet, timeCreation, childRemover, elMaker, makeNavbar };

@@ -28,12 +28,12 @@ const addList = (name, title, text, created = timeCreation()) => {
   }
 };
 
-addList('personal', 'pet', 'Walk Shiro for 30 minutes', [0, 11, 5, 2023]);
+addList('personal', 'pet', 'Walk Shiro for 30 minutes', [2, 23, 11, 5, 2023]);
 addList('social', 'give', 'Volunteer in charity act');
-// addList('work', 'laptop', 'For presentation project');
-addList('personal', 'shop', 'Buy bread, chips, and towel', [3, 14, 9, 2023]);
+addList('work', 'laptop', 'For presentation project');
+addList('personal', 'shop', 'Buy bread, chips, and towel', [3, 54, 20, 9, 2023]);
 addList('social', 'bbq', 'Talk about the upcoming BBQ party');
-// addList('school', 'read', 'Buy programming book');
-// addList('work', 'tie', 'wear tie for big meeting')
+addList('school', 'read', 'Buy programming book');
+addList('work', 'tie', 'wear tie for big meeting')
 
 export { allProjects };

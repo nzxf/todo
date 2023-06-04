@@ -32,7 +32,7 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 
   display: grid;
-  grid-template-rows: 35px 1fr;
+  grid-template-rows: 45px 1fr;
 }
 
 .navbar {
@@ -41,8 +41,45 @@ body {
 
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
   padding: 7.5px;
+}
+
+.navbar > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+
+}
+
+.app-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.app-icon {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/1159/1159633.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  filter: invert(1);
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+}
+.user-icon {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/10126/10126784.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  filter: invert(1);
+  width: 25px;
+  height: 25px;
+  margin: 0 5px;
 }
 
 .main-body {
