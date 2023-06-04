@@ -34,7 +34,7 @@ const deleteButton = (data, parent, targetArr, targetIndex) => {
   });
 };
 
-const submitAddButton = (data, parent, indexProject, indexList) => {
+const submitAddButton = (data, parent, indexProject) => {
   // FIXME:
   const submit = elMaker('button', parent, '', 'submit-button');
   submit.addEventListener('click', function (event) {
@@ -103,7 +103,7 @@ const addInput = (data, parent, classNameArray, indexProject, indexList) => {
     const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
     const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
   }
-  return submitAddButton(data, parent, indexProject, indexList);
+  return submitAddButton(data, parent, indexProject);
 };
 
 const editButton = (data, parent, indexProject, indexList) => {
@@ -140,9 +140,9 @@ const fillData = (data, parent) => {
     const projectContainer = elMaker('div', parent, '', 'project-container');
     // TOP PROJECT
     const topProject = elMaker('div', projectContainer, '', 'top-project', `top-project-${i}`);
-    const buttonContainer = elMaker('div', projectContainer, '', 'button-container');
-    editButton(data, topProject, i);
-    deleteButton(data, topProject, data, i);
+    const buttonContainer = elMaker('div', topProject, '', 'button-container');
+    editButton(data, buttonContainer, i);
+    deleteButton(data, buttonContainer, data, i);
     const projectName = elMaker('div', topProject, data[i].name.toUpperCase(), 'project-name');
     // MID PROJECT
     const midProject = elMaker('div', projectContainer, '', 'mid-project');
@@ -150,7 +150,7 @@ const fillData = (data, parent) => {
       for (let j = 0; j < data[i].content.length; j++) {
         const listContainer = elMaker('div', midProject, '', 'list-container', `list-container-${i}-${j}`);
         // TOP LIST
-        const topList = elMaker('div', listContainer, '', 'top-list');
+        const topList = elMaker('div', listContainer, '', 'top-list', 'button-container');
         editButton(data, topList, i, j);
         deleteButton(data, topList, data[i].content, j);
         // MID LIST

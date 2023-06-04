@@ -9,6 +9,7 @@
   border: 0;
   padding: 0;
   font-family: 'myFont';
+  font-size: 1rem;
   color: rgb(97, 97, 97);
   /* border: solid 1px grey; */
 }
@@ -35,6 +36,8 @@ body {
   grid-template-rows: 45px 1fr;
 }
 
+/* NAVBAR */
+
 .navbar {
   width: 100%;
   background-color: black;
@@ -58,7 +61,13 @@ body {
 .app-name {
   font-size: 1.2rem;
   font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
 }
+
+.user-name {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .app-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/1159/1159633.png);
   background-position: center;
@@ -82,10 +91,12 @@ body {
   margin: 0 5px;
 }
 
+/* MAIN BODY */
+
 .main-body {
   padding: 25px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 170px);
+  grid-template-columns: repeat(auto-fill, 200px);
   gap: 15px;
 }
 
@@ -105,15 +116,14 @@ body {
 }
 
 .project-container > div {
-  margin: 5px 0;
+  /* margin: 5px 0; */
 }
 
 .project-name {
   width: 100%;
   font-weight: bold;
   min-height: 35px;
-  background-color: rgba(255, 255, 255, 0.397);
-  padding: 10px;
+  padding: 10px 5px;
 }
 
 .list-container {
@@ -128,18 +138,23 @@ body {
   cursor: pointer;
   width: 25px;
   height: 25px;
-  margin-left: 3.5px;
-
-  border-radius: 50%;
+  
+  /* border-radius: 50%; */
   background-position: center;
   background-repeat: no-repeat;
+  
+  opacity: 0.6;
+  background-color: transparent;
+}
 
-  opacity: 0.75;
+.edit-button:hover,
+.delete-button:hover {
+  opacity: 1;
 }
 
 .edit-button {
   background-image: url('./images/edit.png');
-  background-size: 16px;
+  background-size: 18px;
 }
 
 .delete-button {
@@ -160,17 +175,25 @@ body {
 
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.75;
+
+  background-color: transparent;
+  opacity: 0.6;
 }
 
 .add-button {
-  background-size: 9px;
+  background-size: 11.5px;
   background-image: url('./images/add.png');
 }
 
+.add-button:hover,
+.submit-button:hover {
+  opacity: 1;
+}
+
 .submit-button {
-  background-size: 12px;
+  background-size: 13.5px;
   background-image: url('./images/confirm.png');
+  margin-top: 10px;
 }
 
 input {
@@ -178,20 +201,39 @@ input {
   min-height: 25px;
 }
 
-.top-project,
-.top-list {
-  /* border: solid 1px red; */
-  text-align: end;
+.project-name {
+  color: rgba(0, 0, 0, 0.9);
+  font-weight: 600;
 }
-.mid-project,
-.mid-list {
-  /* border: solid 1px yellow; */
+
+.list-title {
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 600;
+  /* background-color: green; */
 }
-.bottom-project,
+
+.list-time {
+  margin-top: 15px;
+}
+
+.list-time, .list-date {
+  color: rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+
 .bottom-list {
+  text-align: end;
   /* border: solid 1px green; */
 }
 
-.list-container {
-  /* border: solid 1px purple; */
+.mid-project {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: end;
 }
