@@ -1,6 +1,12 @@
 const functions = (() => {
   //  TESTER
   const greet = () => 'Hello from functions city';
+  // TIME CREATED
+  const timeCreation = () => {
+    let result = [];
+    result.push(new Date().getHours(), new Date().getDate(), new Date().getMonth(), new Date().getFullYear());
+    return result;
+  };
   // ELEMENT MAKER
   const elMaker = (type, parent, text = '', className1, className2) => {
     const el = document.createElement(type);
@@ -27,7 +33,7 @@ const functions = (() => {
     const navEnd = elMaker('div', navbar, 'end', 'nav-end');
   };
   // CLOSURE
-  return { greet, childRemover, elMaker, makeNavbar };
+  return { greet, timeCreation, childRemover, elMaker, makeNavbar };
 })();
 
 export { functions };

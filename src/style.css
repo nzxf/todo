@@ -63,7 +63,7 @@ body {
   justify-content: start;
 }
 
-.add-project-container>div>button {
+.add-project-container > div > button {
   min-height: 69px;
 }
 
@@ -86,11 +86,6 @@ body {
   padding: 10px;
 }
 
-.button-container {
-  display: flex;
-  justify-content: end;
-}
-
 .edit-button,
 .delete-button {
   cursor: pointer;
@@ -101,7 +96,7 @@ body {
   border-radius: 50%;
   background-position: center;
   background-repeat: no-repeat;
-  
+
   opacity: 0.75;
 }
 
@@ -125,14 +120,14 @@ body {
 .submit-button {
   width: 100%;
   min-height: 25px;
-  
+
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.75;
 }
 
 .add-button {
-  background-size:9px;
+  background-size: 9px;
   background-image: url('./images/add.png');
 }
 
@@ -144,4 +139,22 @@ body {
 input {
   width: 100%;
   min-height: 25px;
+}
+
+.top-project,
+.top-list {
+  /* border: solid 1px red; */
+  text-align: end;
+}
+.mid-project,
+.mid-list {
+  /* border: solid 1px yellow; */
+}
+.bottom-project,
+.bottom-list {
+  /* border: solid 1px green; */
+}
+
+.list-container {
+  /* border: solid 1px purple; */
 }

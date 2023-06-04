@@ -1,14 +1,5 @@
-// DUE (empty = 1 day from now)
-let timeCreation = () => {
-  let result = [];
-  result.push(
-    new Date().getHours(),
-    new Date().getDate(),
-    new Date().getMonth(),
-    new Date().getFullYear()
-  );
-  return result;
-};
+ import { functions } from "./allFunctions";
+const timeCreation = functions.timeCreation
 
 // Project Factory
 const Project = (name, content) => {
@@ -32,17 +23,17 @@ const addList = (name, title, text, created = timeCreation()) => {
     // console.log('Uuuuh, this is a new project');
     allProjects.push({
       name: name,
-      content: [{ title: title, text: text, creted: created }],
+      content: [{ title: title, text: text, created: created }],
     });
   }
 };
 
 addList('personal', 'pet', 'Walk Shiro for 30 minutes', [0, 11, 5, 2023]);
 addList('social', 'give', 'Volunteer in charity act');
-addList('work', 'laptop', 'For presentation project');
+// addList('work', 'laptop', 'For presentation project');
 addList('personal', 'shop', 'Buy bread, chips, and towel', [3, 14, 9, 2023]);
 addList('social', 'bbq', 'Talk about the upcoming BBQ party');
-addList('school', 'read', 'Buy programming book');
-addList('work', 'tie', 'wear tie for big meeting')
+// addList('school', 'read', 'Buy programming book');
+// addList('work', 'tie', 'wear tie for big meeting')
 
 export { allProjects };
