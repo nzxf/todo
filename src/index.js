@@ -166,7 +166,7 @@ const fillData = (data, parent) => {
     addButton(data, bottomProject, ['title', 'text'], i);
     // SHOW BUTTONS WHEN SELECTED
     hideAllButOne(projectContainer, 'click', '.button-container', buttonContainer);
-    hideAllButOne(projectContainer, 'click', 'bottom-project', bottomProject);
+    hideAllButOne(projectContainer, 'click', '.bottom-project', bottomProject);
   }
   const addProjectContainer = elMaker('div', parent, '', 'add-project-container');
   addButton(data, addProjectContainer, ['name']);
@@ -177,3 +177,6 @@ makeNavbar(content);
 
 const mainBody = elMaker('div', content, '', 'main-body');
 fillData(allProjects, mainBody);
+
+
+// TODO: add project button keep opening when unselected
