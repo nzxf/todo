@@ -11,6 +11,13 @@ const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
 const displayTime = functions.displayTime;
 
+const cancelButton = (data, parent) => {
+  const cancel = elMaker('div', parent, '', 'cancel-button');
+  cancel.addEventListener('click', function () {
+    fillData(data, document.querySelector('.main-body'));
+  });
+};
+
 // DELETE
 const deleteButton = (data, parent, targetArr, targetIndex) => {
   const deleteBtn = elMaker('button', parent, '', 'delete-button');
@@ -24,7 +31,6 @@ const addButton = (data, parent, classNameArray, indexProject) => {
   const addContainer = elMaker('div', parent, '', 'add-container');
   const addBtn = elMaker('button', addContainer, '', 'add-button');
   addBtn.addEventListener('mouseup', function () {
-    // document.querySelectorAll('.bottom-project').forEach(each=> childRemover(each))
     childRemover(parent);
     addInput(data, parent, classNameArray, indexProject);
   });
@@ -34,10 +40,12 @@ const addInput = (data, parent, classNameArray, indexProject) => {
     const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
     const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
   }
-  return submitAddButton(data, parent, indexProject);
+  // CANCEL AND CONFIRM
+  const bottonContainer = elMaker('div', parent, '', 'submit-cancel-container');
+  cancelButton(data, bottonContainer);
+  submitAddButton(data, bottonContainer, indexProject);
 };
 const submitAddButton = (data, parent, indexProject) => {
-  // FIXME:
   const submit = elMaker('button', parent, '', 'submit-button');
   submit.addEventListener('click', function (event) {
     event.preventDefault();
@@ -87,7 +95,9 @@ const editInput = (data, parent, classNameArray, indexProject, indexList) => {
       input.value = data[indexProject].content[indexList][classNameArray[i]];
     }
   }
-  return submitEditButton(data, parent, indexProject, indexList);
+  const bottonContainer = elMaker('div', parent, '', 'submit-cancel-container');
+  cancelButton(data, bottonContainer);
+  submitEditButton(data, bottonContainer, indexProject, indexList);
 };
 const submitEditButton = (data, parent, indexProject, indexList) => {
   const submit = elMaker('button', parent, '', 'submit-button');
@@ -128,9 +138,9 @@ const hideAllButOne = (container, trigger, dotClassName, elementName) => {
 
 // DISPLAY DATA
 const fillData = (data, parent) => {
-  // CLEAN MAINBODY
+  // CLEAR MAIN BODY
   childRemover(parent);
-  // FILL MAINBODY
+  // FILL MAIN BODY
   for (let i = 0; i < data.length; i++) {
     const projectContainer = elMaker('div', parent, '', 'project-container');
     // TOP PROJECT
@@ -173,10 +183,9 @@ const fillData = (data, parent) => {
 };
 
 const content = document.querySelector('.content');
-makeNavbar(content);
+makeNavbar(document.querySelector('.content'));
 
 const mainBody = elMaker('div', content, '', 'main-body');
 fillData(allProjects, mainBody);
-
 
 // TODO: add project button keep opening when unselected
