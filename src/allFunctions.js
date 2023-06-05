@@ -13,6 +13,16 @@ const functions = (() => {
     );
     return result;
   };
+  // DISPLAY TIME 
+  const displayTime = (timeArray, string) => {
+    if (string === 'time') {
+      return timeArray.slice(0, 2).join(':')
+    } else if (string === 'date') {
+    return timeArray.slice(2).join('/')
+    } else {
+      return `${timeArray.slice(0, 2).join(':')} - ${timeArray.slice(2).join('/')}`
+    }
+  };
   // ELEMENT MAKER
   const elMaker = (type, parent, text = '', className1, className2) => {
     const el = document.createElement(type);
@@ -43,7 +53,7 @@ const functions = (() => {
     const userName = elMaker('div', navEnd, 'yourname', 'user-name');
   };
   // CLOSURE
-  return { greet, timeCreation, childRemover, elMaker, makeNavbar };
+  return { greet, timeCreation, displayTime, childRemover, elMaker, makeNavbar };
 })();
 
 export { functions };

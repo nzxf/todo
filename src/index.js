@@ -9,23 +9,9 @@ const elMaker = functions.elMaker;
 const makeNavbar = functions.makeNavbar;
 const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
+const displayTime = functions.displayTime;
 
-const refresh = (data) => {
-  childRemover(document.querySelector('.main-body'));
-  fillData(data, document.querySelector('.main-body'));
-};
-
-const translateTime = (timeArray, string) => {
-  if (string === 'time') {
-    return timeArray.slice(0, 2).join(':')
-  } else {
-  return timeArray.slice(2).join('/')
-  }
-};
-
-translateTime([4,34,44,34,4,4355])
-
-// DELETE BUTTON MAKER
+// DELETE
 const deleteButton = (data, parent, targetArr, targetIndex) => {
   const deleteBtn = elMaker('button', parent, '', 'delete-button');
   deleteBtn.addEventListener('mouseup', function () {
@@ -33,7 +19,23 @@ const deleteButton = (data, parent, targetArr, targetIndex) => {
     fillData(data, document.querySelector('.main-body')); // FILL MAINBODY NEW DATA
   });
 };
-
+// ADD SEQUENCE
+const addButton = (data, parent, classNameArray, indexProject) => {
+  const addContainer = elMaker('div', parent, '', 'add-container');
+  const addBtn = elMaker('button', addContainer, '', 'add-button');
+  addBtn.addEventListener('mouseup', function () {
+    // document.querySelectorAll('.bottom-project').forEach(each=> childRemover(each))
+    childRemover(parent);
+    addInput(data, parent, classNameArray, indexProject);
+  });
+};
+const addInput = (data, parent, classNameArray, indexProject) => {
+  for (let i = 0; i < classNameArray.length; i++) {
+    const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
+    const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
+  }
+  return submitAddButton(data, parent, indexProject);
+};
 const submitAddButton = (data, parent, indexProject) => {
   // FIXME:
   const submit = elMaker('button', parent, '', 'submit-button');
@@ -54,11 +56,39 @@ const submitAddButton = (data, parent, indexProject) => {
         created: timeCreation(),
       });
     }
-    childRemover(parent); // CLEAR INPUT FORM
-    return fillData(data, document.querySelector('.main-body')); // FILL MAIN BODY NEW DATA
+    return fillData(data, document.querySelector('.main-body'));
   });
 };
-
+// EDIT SEQUENCE
+const editButton = (data, parent, indexProject, indexList) => {
+  const editBtn = elMaker('button', parent, '', 'edit-button');
+  editBtn.addEventListener('mouseup', function () {
+    // PROJECT
+    if (indexList == undefined) {
+      const topProjectX = document.querySelector(`.top-project-${indexProject}`);
+      childRemover(topProjectX);
+      editInput(data, topProjectX, ['name'], indexProject, indexList);
+    } else {
+      // LIST
+      const listContainerX = document.querySelector(`.list-container-${indexProject}-${indexList}`);
+      childRemover(listContainerX);
+      editInput(data, listContainerX, ['title', 'text'], indexProject, indexList);
+    }
+  });
+};
+const editInput = (data, parent, classNameArray, indexProject, indexList) => {
+  for (let i = 0; i < classNameArray.length; i++) {
+    const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
+    const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
+    // IF DATA EXIST
+    if (classNameArray[i] == 'name') {
+      input.value = data[indexProject][classNameArray[i]];
+    } else if (classNameArray[i] == 'title' || classNameArray[i] == 'text') {
+      input.value = data[indexProject].content[indexList][classNameArray[i]];
+    }
+  }
+  return submitEditButton(data, parent, indexProject, indexList);
+};
 const submitEditButton = (data, parent, indexProject, indexList) => {
   const submit = elMaker('button', parent, '', 'submit-button');
   submit.addEventListener('click', function (event) {
@@ -79,59 +109,24 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
       });
     }
     // UPDATE DATA DISPLAY
-    childRemover(parent);
+    // childRemover(parent);
     return fillData(data, document.querySelector('.main-body'));
   });
 };
 
-const editInput = (data, parent, classNameArray, indexProject, indexList) => {
-  for (let i = 0; i < classNameArray.length; i++) {
-    const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
-    const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
-    // IF DATA EXIST
-    if (classNameArray[i] == 'name') {
-      input.value = data[indexProject][classNameArray[i]];
-    } else if (classNameArray[i] == 'title' || classNameArray[i] == 'text') {
-      input.value = data[indexProject].content[indexList][classNameArray[i]];
-    }
-  }
-  return submitEditButton(data, parent, indexProject, indexList);
-};
-
-const addInput = (data, parent, classNameArray, indexProject, indexList) => {
-  for (let i = 0; i < classNameArray.length; i++) {
-    const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
-    const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
-  }
-  return submitAddButton(data, parent, indexProject);
-};
-
-const editButton = (data, parent, indexProject, indexList) => {
-  const editBtn = elMaker('button', parent, '', 'edit-button');
-  editBtn.addEventListener('mouseup', function () {
-    // PROJECT
-    if (indexList == undefined) {
-      const topProjectX = document.querySelector(`.top-project-${indexProject}`);
-      childRemover(topProjectX);
-      editInput(data, topProjectX, ['name'], indexProject, indexList);
-    } else {
-      // LIST
-      const listContainerX = document.querySelector(`.list-container-${indexProject}-${indexList}`);
-      childRemover(listContainerX);
-      editInput(data, listContainerX, ['title', 'text'], indexProject, indexList);
+// HIDE OTHERS BUTTONS, EXCEPT SELECTED
+const hideAllButOne = (container, trigger, dotClassName, elementName) => {
+  container.addEventListener(trigger, function (e) {
+    e.stopPropagation();
+    const elements = document.querySelectorAll(dotClassName);
+    elements.forEach((element) => element.classList.add('hidden'));
+    if (document.querySelector('.hidden')) {
+      elementName.classList.toggle('hidden');
     }
   });
 };
 
-const addButton = (data, parent, classNameArray, indexProject) => {
-  const addContainer = elMaker('div', parent, '', 'add-container');
-  const addBtn = elMaker('button', addContainer, '', 'add-button');
-  addBtn.addEventListener('mouseup', function () {
-    childRemover(parent);
-    addInput(data, parent, classNameArray, indexProject);
-  });
-};
-
+// DISPLAY DATA
 const fillData = (data, parent) => {
   // CLEAN MAINBODY
   childRemover(parent);
@@ -140,7 +135,7 @@ const fillData = (data, parent) => {
     const projectContainer = elMaker('div', parent, '', 'project-container');
     // TOP PROJECT
     const topProject = elMaker('div', projectContainer, '', 'top-project', `top-project-${i}`);
-    const buttonContainer = elMaker('div', topProject, '', 'button-container');
+    const buttonContainer = elMaker('div', topProject, '', 'button-container', 'hidden');
     editButton(data, buttonContainer, i);
     deleteButton(data, buttonContainer, data, i);
     const projectName = elMaker('div', topProject, data[i].name.toUpperCase(), 'project-name');
@@ -150,22 +145,28 @@ const fillData = (data, parent) => {
       for (let j = 0; j < data[i].content.length; j++) {
         const listContainer = elMaker('div', midProject, '', 'list-container', `list-container-${i}-${j}`);
         // TOP LIST
-        const topList = elMaker('div', listContainer, '', 'top-list', 'button-container');
-        editButton(data, topList, i, j);
-        deleteButton(data, topList, data[i].content, j);
+        const buttonContainer = elMaker('div', listContainer, '', 'button-container', 'hidden');
+        editButton(data, buttonContainer, i, j);
+        deleteButton(data, buttonContainer, data[i].content, j);
         // MID LIST
         const midList = elMaker('div', listContainer, '', 'mid-list');
         elMaker('div', midList, data[i].content[j].title, 'list-title');
         elMaker('div', midList, data[i].content[j].text, 'list-text');
         // BOTTOM LIST
         const bottomList = elMaker('div', listContainer, '', 'bottom-list');
-        elMaker('div', bottomList, translateTime(data[i].content[j].created, 'time'), 'list-time');
-        elMaker('div', bottomList, translateTime(data[i].content[j].created, 'date'), 'list-date');
+        elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
+        elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
+        // elMaker('div', bottomList, translateTime(data[i].content[j].created), 'list-date'); // BOTH
+        // SHOW BUTTONS WHEN SELECTED
+        hideAllButOne(listContainer, 'click', '.button-container', buttonContainer);
       }
     }
     // BOTTOM PROJECT
-    const bottomProject = elMaker('div', projectContainer, '', 'bottom-project');
+    const bottomProject = elMaker('div', projectContainer, '', 'bottom-project', 'hidden');
     addButton(data, bottomProject, ['title', 'text'], i);
+    // SHOW BUTTONS WHEN SELECTED
+    hideAllButOne(projectContainer, 'click', '.button-container', buttonContainer);
+    hideAllButOne(projectContainer, 'click', 'bottom-project', bottomProject);
   }
   const addProjectContainer = elMaker('div', parent, '', 'add-project-container');
   addButton(data, addProjectContainer, ['name']);

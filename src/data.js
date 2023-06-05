@@ -8,7 +8,7 @@ const Project = (name, content) => {
 
 let allProjects = [];
 
-const addList = (name, title, text, created = timeCreation()) => {
+const addTask = (name, title, text, created = timeCreation()) => {
   if (allProjects.find((project) => project.name == name)) {
     // console.log('Add it to the existed project');
     let projectIndex = allProjects.findIndex(
@@ -28,12 +28,12 @@ const addList = (name, title, text, created = timeCreation()) => {
   }
 };
 
-addList('personal', 'pet', 'Walk Shiro for 30 minutes', [2, 23, 11, 5, 2023]);
-addList('social', 'give', 'Volunteer in charity act');
-addList('work', 'laptop', 'For presentation project');
-addList('personal', 'shop', 'Buy bread, chips, and towel', [3, 54, 20, 9, 2023]);
-addList('social', 'bbq', 'Talk about the upcoming BBQ party');
-addList('school', 'read', 'Buy programming book');
-addList('work', 'tie', 'wear tie for big meeting')
+addTask('personal', 'pet', 'Walk Shiro for 30 minutes', [2, 23, 11, 5, 2023]);
+addTask('social', 'give', 'Volunteer in charity act');
+addTask('work', 'laptop', 'For presentation project');
+addTask('personal', 'shop', 'Buy bread, chips, and towel', [3, 54, 20, 9, 2023]);
+addTask('social', 'bbq', 'Talk about the upcoming BBQ party');
+addTask('school', 'read', 'Buy programming book');
+addTask('work', 'tie', 'wear tie for big meeting')
 
 export { allProjects };

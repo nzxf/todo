@@ -233,7 +233,13 @@ input {
   margin-bottom: 10px;
 }
 
-.button-container {
+.button-container,
+.top-list {
   display: flex;
   justify-content: end;
+}
+
+.hidden {
+  overflow: hidden;
+  height: 0px;
 }
