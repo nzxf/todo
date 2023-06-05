@@ -5,10 +5,10 @@ const functions = (() => {
   const timeCreation = () => {
     let result = [];
     result.push(
-      new Date().getMinutes(),
       new Date().getHours(),
+      new Date().getMinutes(),
       new Date().getDate(),
-      new Date().getMonth(),
+      new Date().getMonth() + 1,
       new Date().getFullYear()
     );
     return result;
@@ -20,7 +20,7 @@ const functions = (() => {
     } else if (string === 'date') {
     return timeArray.slice(2).join('/')
     } else {
-      return `${timeArray.slice(0, 2).join(':')} - ${timeArray.slice(2).join('/')}`
+      return `⏰ ${timeArray.slice(0, 2).join(':')} 📇 ${timeArray.slice(2).join('/')}`
     }
   };
   // ELEMENT MAKER
@@ -48,9 +48,9 @@ const functions = (() => {
     const webIcon = elMaker('div', navStart, '', 'app-icon');
     const webName = elMaker('div', navStart, 'TODO', 'app-name');
     const navCenter = elMaker('div', navbar, '', 'nav-center');
-    const navEnd = elMaker('div', navbar, '', 'nav-end');
+    const navEnd = elMaker('div', navbar, 'the data saved locally', 'nav-end');
     const usericon = elMaker('div', navEnd, '', 'user-icon');
-    const userName = elMaker('div', navEnd, 'yourname', 'user-name');
+    const userName = elMaker('div', navEnd, '', 'user-name');
   };
   // CLOSURE
   return { greet, timeCreation, displayTime, childRemover, elMaker, makeNavbar };

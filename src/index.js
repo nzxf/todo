@@ -1,6 +1,6 @@
 import './style.css';
 // import { add, format } from 'date-fns';
-import { allProjects } from './data';
+import { allProjects } from './seeds';
 
 import { functions } from './allFunctions';
 import el from 'date-fns/esm/locale/el/index.js';
@@ -10,14 +10,32 @@ const makeNavbar = functions.makeNavbar;
 const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
 const displayTime = functions.displayTime;
+let rawData = ''
 
+
+
+// localStorage.setItem('user', JSON.stringify(rawData))
+// JSON.parse(localStorage.getItem('user'))
+
+
+// SAVED DATA
+const checkLocalData = () => {
+  if (localStorage.getItem('user')) {
+    console.log('loading saved user data')
+    rawData = JSON.parse(localStorage.getItem('user'))
+  } else {
+    console.log('created new user data');
+    rawData = allProjects
+  }
+}
+
+// CANCEL
 const cancelButton = (data, parent) => {
   const cancel = elMaker('div', parent, '', 'cancel-button');
   cancel.addEventListener('click', function () {
     fillData(data, document.querySelector('.main-body'));
   });
 };
-
 // DELETE
 const deleteButton = (data, parent, targetArr, targetIndex) => {
   const deleteBtn = elMaker('button', parent, '', 'delete-button');
@@ -88,7 +106,14 @@ const editInput = (data, parent, classNameArray, indexProject, indexList) => {
   for (let i = 0; i < classNameArray.length; i++) {
     const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
     const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
-    // IF DATA EXIST
+
+    label.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+    input.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+
     if (classNameArray[i] == 'name') {
       input.value = data[indexProject][classNameArray[i]];
     } else if (classNameArray[i] == 'title' || classNameArray[i] == 'text') {
@@ -158,25 +183,27 @@ const fillData = (data, parent) => {
         const buttonContainer = elMaker('div', listContainer, '', 'button-container', 'hidden');
         editButton(data, buttonContainer, i, j);
         deleteButton(data, buttonContainer, data[i].content, j);
+        hideAllButOne(listContainer, 'click', '.button-container', buttonContainer);
         // MID LIST
         const midList = elMaker('div', listContainer, '', 'mid-list');
         elMaker('div', midList, data[i].content[j].title, 'list-title');
         elMaker('div', midList, data[i].content[j].text, 'list-text');
         // BOTTOM LIST
-        const bottomList = elMaker('div', listContainer, '', 'bottom-list');
-        elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
-        elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
-        // elMaker('div', bottomList, translateTime(data[i].content[j].created), 'list-date'); // BOTH
+        const bottomList = elMaker('div', listContainer, '', 'bottom-list', 'hidden');
+        // const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
+        // const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
+        elMaker('div', bottomList, displayTime(data[i].content[j].created), 'list-date'); // BOTH
+        hideAllButOne(listContainer, 'click', '.bottom-list', bottomList);
         // SHOW BUTTONS WHEN SELECTED
-        hideAllButOne(listContainer, 'click', '.button-container', buttonContainer);
+        localStorage.setItem('user', JSON.stringify(rawData))
       }
     }
     // BOTTOM PROJECT
-    const bottomProject = elMaker('div', projectContainer, '', 'bottom-project', 'hidden');
+    const bottomProject = elMaker('div', projectContainer, '', 'bottom-project');
     addButton(data, bottomProject, ['title', 'text'], i);
     // SHOW BUTTONS WHEN SELECTED
     hideAllButOne(projectContainer, 'click', '.button-container', buttonContainer);
-    hideAllButOne(projectContainer, 'click', '.bottom-project', bottomProject);
+    // hideAllButOne(projectContainer, 'click', '.bottom-project', bottomProject);
   }
   const addProjectContainer = elMaker('div', parent, '', 'add-project-container');
   addButton(data, addProjectContainer, ['name']);
@@ -186,6 +213,10 @@ const content = document.querySelector('.content');
 makeNavbar(document.querySelector('.content'));
 
 const mainBody = elMaker('div', content, '', 'main-body');
-fillData(allProjects, mainBody);
+checkLocalData()
+fillData(rawData, mainBody);
 
-// TODO: add project button keep opening when unselected
+// content.addEventListener('click', function (e) { // TODO: too ambitious?? event delegation solves it?
+//   e.stopPropagation();
+//   fillData(rawData, mainBody);
+// });

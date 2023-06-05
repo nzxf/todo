@@ -64,9 +64,6 @@ body {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.user-name {
-  color: rgba(255, 255, 255, 0.8);
-}
 
 .app-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/1159/1159633.png);
@@ -79,7 +76,12 @@ body {
   height: 20px;
   margin: 0 10px;
 }
-.user-icon {
+
+/* .user-name {
+  color: rgba(255, 255, 255, 0.8);
+} */
+
+/* .user-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/10126/10126784.png);
   background-position: center;
   background-repeat: no-repeat;
@@ -89,7 +91,7 @@ body {
   width: 25px;
   height: 25px;
   margin: 0 5px;
-}
+} */
 
 /* MAIN BODY */
 
@@ -224,17 +226,13 @@ input {
   /* background-color: green; */
 }
 
-.list-time {
-  margin-top: 15px;
-}
-
 .list-time, .list-date {
   color: rgba(0, 0, 0, 0.2);
-  display: none;
 }
 
 
 .bottom-list {
+  margin-top: 10px;
   text-align: end;
   /* border: solid 1px green; */
 }
