@@ -51,7 +51,7 @@ const addInput = (data, parent, classNameArray, indexProject) => {
   for (let i = 0; i < classNameArray.length; i++) {
     // const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
     const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
-    input.placeholder = classNameArray[i]
+    input.placeholder = classNameArray[i];
   }
   // CANCEL AND CONFIRM
   const bottonContainer = elMaker('div', parent, '', 'submit-cancel-container');
@@ -175,10 +175,10 @@ const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
     if (document.querySelector('.hidden')) {
       // elements1.classList.remove('hidden')
       if (anotherElementName === undefined) {
-        return elementName.classList.remove('hidden');
+        return elementName.classList.toggle('hidden');
       }
       elementName.classList.remove('hidden');
-      anotherElementName.classList.remove('hidden');
+      anotherElementName.classList.toggle('hidden');
     }
   });
 };
@@ -240,12 +240,11 @@ const fillData = (data, parent) => {
 
 checkLocalData();
 const content = document.querySelector('.content');
-makeNavbar(document.querySelector('.content'));
-const mainBody = elMaker('div', content, '', 'main-body');
-fillData(rawData, mainBody);
-
 content.onclick = function () {
   fillData(rawData, mainBody);
 };
 
-console.log(rawData[0].user);
+
+makeNavbar(document.querySelector('.content'));
+const mainBody = elMaker('div', content, '', 'main-body');
+fillData(rawData, mainBody);

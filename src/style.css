@@ -10,7 +10,7 @@
   padding: 0;
   font-family: 'myFont';
   font-size: 1rem;
-  color: rgb(97, 97, 97);
+  /* color: rgb(141, 141, 141); */
   /* border: solid 1px grey; */
 }
 
@@ -32,6 +32,7 @@ body {
   height: 100%;
   background-color: rgba(255, 255, 255, 0.1);
 
+  
   display: grid;
   grid-template-rows: 45px 1fr;
 }
@@ -40,8 +41,8 @@ body {
 
 .navbar {
   width: 100%;
-  background-color: black;
-
+  background-color: rgba(0, 0, 0);
+  
   display: grid;
   grid-template-columns: auto 1fr auto;
   justify-content: center;
@@ -55,7 +56,6 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0 5px;
-
 }
 
 .app-name {
@@ -63,7 +63,6 @@ body {
   font-weight: 600;
   color: rgba(255, 255, 255, 0.8);
 }
-
 
 .app-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/1159/1159633.png);
@@ -74,63 +73,71 @@ body {
   filter: invert(1);
   width: 20px;
   height: 20px;
-  margin: 0 10px;
+  margin-right: 8px;
 }
 
 .user-name {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.075);
 }
 
-.user-icon {
-  background-image: url(https://cdn-icons-png.flaticon.com/512/10126/10126784.png);
+/* .user-icon {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/366/366354.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
-border: solid 1px black;
-border-radius: 50%;
+  
+  border: solid 1px black;
+  border-radius: 50%;
 
   filter: invert(1);
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   margin: 0 5px;
-}
+} */
 
 /* MAIN BODY */
 
 .main-body {
   padding: 25px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-columns: repeat(auto-fit, 200px);
+  grid-template-rows: repeat(3, 1fr);
   gap: 15px;
 
   overflow: scroll;
+  /* justify-content: center; */
 }
 
 .project-container,
 .add-project-container {
   height: fit-content;
-  background-color: rgba(255, 255, 255, 0.8);
-
-  padding: 10px;
-
+  background-color: rgba(230, 230, 230, 0.9);
+  
+  padding: 10px 10px;
+  
   display: flex;
   flex-direction: column;
   justify-content: start;
+  
+  border-radius: 5px;
 }
 
 .project-name {
   width: 100%;
   font-weight: bold;
-  min-height: 35px;
-  padding: 10px 5px;
+  font-size: 1.1rem;
+  height: 35px;
+  padding: 10px 2.5px 5px;
 }
 
 .list-container {
   width: 100%;
   height: auto;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 10px;
+
+  border-radius: 5px;
+  transition: all 2s;
 }
 
 .edit-button,
@@ -138,11 +145,11 @@ border-radius: 50%;
   cursor: pointer;
   width: 25px;
   height: 25px;
-  
+
   /* border-radius: 50%; */
   background-position: center;
   background-repeat: no-repeat;
-  
+
   opacity: 0.6;
   background-color: transparent;
 }
@@ -176,7 +183,7 @@ border-radius: 50%;
 .submit-button,
 .cancel-button {
   width: 100%;
-  min-height: 25px;
+  height: 25px;
 
   background-position: center;
   background-repeat: no-repeat;
@@ -192,6 +199,7 @@ border-radius: 50%;
 }
 
 .add-button {
+  height: 40px;
   background-size: 11.5px;
   background-image: url('./images/add.png');
 }
@@ -210,9 +218,12 @@ border-radius: 50%;
 
 input {
   width: 100%;
-  height: auto;
+  height: fit-content;
   padding: 2px 5px;
   margin-bottom: 2.5px;
+  border: 0;
+  border-radius: 3px;
+  background-color: rgb(231, 231, 231);
 }
 
 .project-name {
@@ -226,21 +237,26 @@ input {
   /* background-color: green; */
 }
 
-.list-time, .list-date {
-  color: rgba(0, 0, 0, 0.2);
+.list-text {
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: 2.5px;
 }
 
+.list-time,
+.list-date {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: .9rem;
+}
 
 .bottom-list {
-  margin-top: 10px;
+  margin-top: 7.5px;
   text-align: end;
-  /* border: solid 1px green; */
 }
 
 .mid-project {
   display: grid;
   gap: 5px;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 
 .button-container,
@@ -249,7 +265,12 @@ input {
   justify-content: end;
 }
 
+.list-container {
+  height: fit-content;
+}
+
 .hidden {
-  overflow: hidden;
   height: 0px;
+  overflow: hidden;
+
 }
