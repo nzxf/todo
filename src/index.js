@@ -10,9 +10,9 @@ const makeNavbar = functions.makeNavbar;
 const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
 const displayTime = functions.displayTime;
-let rawData = '';
 
 // SAVED DATA
+let rawData = '';
 const checkLocalData = () => {
   if (localStorage.getItem('user')) {
     console.log('loading saved user data');
@@ -49,8 +49,9 @@ const addButton = (data, parent, classNameArray, indexProject) => {
 };
 const addInput = (data, parent, classNameArray, indexProject) => {
   for (let i = 0; i < classNameArray.length; i++) {
-    const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
+    // const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
     const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
+    input.placeholder = classNameArray[i]
   }
   // CANCEL AND CONFIRM
   const bottonContainer = elMaker('div', parent, '', 'submit-cancel-container');
@@ -117,12 +118,12 @@ const editButton = (data, parent, indexProject, indexList) => {
 };
 const editInput = (data, parent, classNameArray, indexProject, indexList) => {
   for (let i = 0; i < classNameArray.length; i++) {
-    const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
+    // const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
     const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
 
-    label.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
+    // label.addEventListener('click', function (e) {
+    //   e.stopPropagation();
+    // });
     input.addEventListener('click', function (e) {
       e.stopPropagation();
     });
@@ -161,7 +162,6 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
     return fillData(data, document.querySelector('.main-body'));
   });
 };
-
 // HIDE OTHERS BUTTONS
 const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
   container.addEventListener(trigger, function (e) {
@@ -171,13 +171,12 @@ const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
     elements1.forEach((element) => element.classList.add('hidden'));
     const elements2 = document.querySelectorAll('.bottom-list');
     elements2.forEach((element) => element.classList.add('hidden'));
-    // const elements0 = document.querySelectorAll('.bottom-project');
-    // elements0.forEach((element) => element.classList.add('hidden'));
 
-    // const elements3 = document.querySelectorAll(dotClassName);
-    // elements3.forEach((element) => element.classList.add('hidden'));
     if (document.querySelector('.hidden')) {
       // elements1.classList.remove('hidden')
+      if (anotherElementName === undefined) {
+        return elementName.classList.remove('hidden');
+      }
       elementName.classList.remove('hidden');
       anotherElementName.classList.remove('hidden');
     }
@@ -213,11 +212,11 @@ const fillData = (data, parent) => {
         elMaker('div', midList, data[i].content[j].text, 'list-text');
         // BOTTOM LIST
         const bottomList = elMaker('div', listContainer, '', 'bottom-list', 'hidden');
-        const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
-        const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
-        // elMaker('div', bottomList, displayTime(data[i].content[j].created), 'list-date'); // BOTH
+        // const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
+        // const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
+        elMaker('div', bottomList, displayTime(data[i].content[j].created), 'list-date'); // BOTH
         // SHOW BUTTONS WHEN SELECTED
-        hideAllButOne(listContainer, 'click', buttonContainer, bottomList); // FIXME:
+        hideAllButOne(listContainer, 'click', buttonContainer, bottomList);
         // SAVED USER DATA
         localStorage.setItem('user', JSON.stringify(rawData));
       }
@@ -229,7 +228,7 @@ const fillData = (data, parent) => {
       e.stopPropagation();
     });
     // SHOW BUTTONS WHEN SELECTED
-    hideAllButOne(projectContainer, 'click', buttonContainer); // FIXME:
+    hideAllButOne(projectContainer, 'click', buttonContainer);
     // hideAllButOne(projectContainer, 'click', '.bottom-project', bottomProject);
   }
   const addProjectContainer = elMaker('div', parent, '', 'add-project-container');
@@ -248,3 +247,5 @@ fillData(rawData, mainBody);
 content.onclick = function () {
   fillData(rawData, mainBody);
 };
+
+console.log(rawData[0].user);
