@@ -77,21 +77,24 @@ body {
   margin: 0 10px;
 }
 
-/* .user-name {
+.user-name {
   color: rgba(255, 255, 255, 0.8);
-} */
+}
 
-/* .user-icon {
+.user-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/10126/10126784.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 
+border: solid 1px black;
+border-radius: 50%;
+
   filter: invert(1);
   width: 25px;
   height: 25px;
   margin: 0 5px;
-} */
+}
 
 /* MAIN BODY */
 
@@ -111,14 +114,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: start;
-}
-
-.add-project-container > div > button {
-  /* min-height: 69px; */
-}
-
-.project-container > div {
-  /* margin: 5px 0; */
 }
 
 .project-name {

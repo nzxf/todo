@@ -48,9 +48,9 @@ const functions = (() => {
     const webIcon = elMaker('div', navStart, '', 'app-icon');
     const webName = elMaker('div', navStart, 'TODO', 'app-name');
     const navCenter = elMaker('div', navbar, '', 'nav-center');
-    const navEnd = elMaker('div', navbar, 'the data saved locally', 'nav-end');
+    const navEnd = elMaker('div', navbar, '', 'nav-end');
     const usericon = elMaker('div', navEnd, '', 'user-icon');
-    const userName = elMaker('div', navEnd, '', 'user-name');
+    const userName = elMaker('div', navEnd, 'nzxf', 'user-name');
   };
   // CLOSURE
   return { greet, timeCreation, displayTime, childRemover, elMaker, makeNavbar };

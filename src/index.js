@@ -10,24 +10,18 @@ const makeNavbar = functions.makeNavbar;
 const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
 const displayTime = functions.displayTime;
-let rawData = ''
-
-
-
-// localStorage.setItem('user', JSON.stringify(rawData))
-// JSON.parse(localStorage.getItem('user'))
-
+let rawData = '';
 
 // SAVED DATA
 const checkLocalData = () => {
   if (localStorage.getItem('user')) {
-    console.log('loading saved user data')
-    rawData = JSON.parse(localStorage.getItem('user'))
+    console.log('loading saved user data');
+    rawData = JSON.parse(localStorage.getItem('user'));
   } else {
     console.log('created new user data');
-    rawData = allProjects
+    rawData = allProjects;
   }
-}
+};
 
 // CANCEL
 const cancelButton = (data, parent) => {
@@ -69,18 +63,37 @@ const submitAddButton = (data, parent, indexProject) => {
     event.preventDefault();
     // ADD PROJECT
     if (!data[indexProject]) {
-      data.push({
-        name: document.querySelector('.name-input').value,
-        content: [],
-      });
+      if (document.querySelector('.name-input').value === '') {
+        // no input
+        data.push({
+          name: 'empty',
+          content: [],
+        });
+      } else {
+        // yes input
+        data.push({
+          name: document.querySelector('.name-input').value,
+          content: [],
+        });
+      }
     }
     // ADD LIST
     else if (data[indexProject].content) {
-      data[indexProject].content.push({
-        title: document.querySelector('.title-input').value,
-        text: document.querySelector('.text-input').value,
-        created: timeCreation(),
-      });
+      // no input in both
+      if (document.querySelector('.title-input').value === '' && document.querySelector('.text-input').value === '') {
+        data[indexProject].content.push({
+          title: '',
+          text: 'empty',
+          created: timeCreation(),
+        });
+      } else {
+        // at least one input
+        data[indexProject].content.push({
+          title: document.querySelector('.title-input').value,
+          text: document.querySelector('.text-input').value,
+          created: timeCreation(),
+        });
+      }
     }
     return fillData(data, document.querySelector('.main-body'));
   });
@@ -149,14 +162,24 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
   });
 };
 
-// HIDE OTHERS BUTTONS, EXCEPT SELECTED
-const hideAllButOne = (container, trigger, dotClassName, elementName) => {
+// HIDE OTHERS BUTTONS
+const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
   container.addEventListener(trigger, function (e) {
     e.stopPropagation();
-    const elements = document.querySelectorAll(dotClassName);
-    elements.forEach((element) => element.classList.add('hidden'));
+
+    const elements1 = document.querySelectorAll('.button-container');
+    elements1.forEach((element) => element.classList.add('hidden'));
+    const elements2 = document.querySelectorAll('.bottom-list');
+    elements2.forEach((element) => element.classList.add('hidden'));
+    // const elements0 = document.querySelectorAll('.bottom-project');
+    // elements0.forEach((element) => element.classList.add('hidden'));
+
+    // const elements3 = document.querySelectorAll(dotClassName);
+    // elements3.forEach((element) => element.classList.add('hidden'));
     if (document.querySelector('.hidden')) {
-      elementName.classList.toggle('hidden');
+      // elements1.classList.remove('hidden')
+      elementName.classList.remove('hidden');
+      anotherElementName.classList.remove('hidden');
     }
   });
 };
@@ -183,40 +206,45 @@ const fillData = (data, parent) => {
         const buttonContainer = elMaker('div', listContainer, '', 'button-container', 'hidden');
         editButton(data, buttonContainer, i, j);
         deleteButton(data, buttonContainer, data[i].content, j);
-        hideAllButOne(listContainer, 'click', '.button-container', buttonContainer);
+        // hideAllButOne(listContainer, 'click', '.button-container', buttonContainer);
         // MID LIST
         const midList = elMaker('div', listContainer, '', 'mid-list');
         elMaker('div', midList, data[i].content[j].title, 'list-title');
         elMaker('div', midList, data[i].content[j].text, 'list-text');
         // BOTTOM LIST
         const bottomList = elMaker('div', listContainer, '', 'bottom-list', 'hidden');
-        // const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
-        // const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
-        elMaker('div', bottomList, displayTime(data[i].content[j].created), 'list-date'); // BOTH
-        hideAllButOne(listContainer, 'click', '.bottom-list', bottomList);
+        const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
+        const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
+        // elMaker('div', bottomList, displayTime(data[i].content[j].created), 'list-date'); // BOTH
         // SHOW BUTTONS WHEN SELECTED
-        localStorage.setItem('user', JSON.stringify(rawData))
+        hideAllButOne(listContainer, 'click', buttonContainer, bottomList); // FIXME:
+        // SAVED USER DATA
+        localStorage.setItem('user', JSON.stringify(rawData));
       }
     }
     // BOTTOM PROJECT
     const bottomProject = elMaker('div', projectContainer, '', 'bottom-project');
     addButton(data, bottomProject, ['title', 'text'], i);
+    bottomProject.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
     // SHOW BUTTONS WHEN SELECTED
-    hideAllButOne(projectContainer, 'click', '.button-container', buttonContainer);
+    hideAllButOne(projectContainer, 'click', buttonContainer); // FIXME:
     // hideAllButOne(projectContainer, 'click', '.bottom-project', bottomProject);
   }
   const addProjectContainer = elMaker('div', parent, '', 'add-project-container');
   addButton(data, addProjectContainer, ['name']);
+  addProjectContainer.addEventListener('click', function (e) {
+    e.stopPropagation();
+  });
 };
 
+checkLocalData();
 const content = document.querySelector('.content');
 makeNavbar(document.querySelector('.content'));
-
 const mainBody = elMaker('div', content, '', 'main-body');
-checkLocalData()
 fillData(rawData, mainBody);
 
-// content.addEventListener('click', function (e) { // TODO: too ambitious?? event delegation solves it?
-//   e.stopPropagation();
-//   fillData(rawData, mainBody);
-// });
+content.onclick = function () {
+  fillData(rawData, mainBody);
+};
