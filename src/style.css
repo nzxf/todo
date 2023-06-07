@@ -32,7 +32,6 @@ body {
   height: 100%;
   background-color: rgba(255, 255, 255, 0.1);
 
-  
   display: grid;
   grid-template-rows: 45px 1fr;
 }
@@ -42,7 +41,7 @@ body {
 .navbar {
   width: 100%;
   background-color: rgba(0, 0, 0);
-  
+
   display: grid;
   grid-template-columns: auto 1fr auto;
   justify-content: center;
@@ -100,8 +99,8 @@ body {
 .main-body {
   padding: 25px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 200px);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, 220px);
+  grid-template-rows: repeat(5, 1fr);
   gap: 15px;
 
   overflow: scroll;
@@ -112,13 +111,13 @@ body {
 .add-project-container {
   height: fit-content;
   background-color: rgba(230, 230, 230, 0.9);
-  
+
   padding: 10px 10px;
-  
+
   display: flex;
   flex-direction: column;
   justify-content: start;
-  
+
   border-radius: 5px;
 }
 
@@ -131,7 +130,7 @@ body {
 }
 
 .list-container {
-  width: 100%;
+  width: 200px;
   height: auto;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 10px;
@@ -216,7 +215,8 @@ body {
   margin-top: 10px;
 }
 
-input {
+input,
+.priority-container {
   width: 100%;
   height: fit-content;
   padding: 2px 5px;
@@ -247,7 +247,7 @@ input {
 .list-due,
 .list-priority {
   color: rgba(0, 0, 0, 0.3);
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 .bottom-list {
@@ -274,33 +274,44 @@ input {
 .hidden {
   height: 0px;
   overflow: hidden;
-
 }
 
-.priority-container {
-  display: flex;
-  background-color: greenyellow;
-}
-
-.priority-label {
-  background-color: yellow;
-}
-.priority-label:checked {
-  background-color: red;
-}
-
-
-.priority-input {
-  background-color: orange;
-  display: hidden;
-}
-.priority-input:checked {
-  background-color: red;
-}
-
+/* COLOR SCHEME PRIORITY */
 .priority-high {
-  border-left: solid 3px red;
+  border-left: solid 2px rgba(255, 0, 0, 0.5);
 }
 .priority-medium {
-  border-left: solid 3px yellow;
+  border-left: solid 2px rgba(255, 255, 0, 0.5);
+}
+.priority-low {
+  border-left: solid 2px rgba(0, 128, 0, 0.5);
+}
+
+/* PRIORITY INPUT */
+.priority-container {
+  display: grid;
+  grid-template-columns: auto repeat(3, 1fr 0);
+  justify-content: center;
+  align-items: center;
+  color: grey;
+  /* background-color: transparent; */
+}
+
+.priority-input {
+  background-color: rgb(255, 255, 255);
+  appearance: none;
+}
+
+.priority-input-low:checked {
+  background-color: rgba(0, 128, 0, 0.5);
+  color: white;
+}
+.priority-input-medium:checked {
+  background-color: rgba(255, 255, 0, 0.5);
+  font-weight: 600;
+  color: white;
+}
+.priority-input-high:checked {
+  background-color: rgba(255, 0, 0, 0.5);
+  color: white;
 }

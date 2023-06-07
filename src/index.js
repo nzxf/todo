@@ -11,7 +11,6 @@ const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
 const displayTime = functions.displayTime;
 
-
 const reList = (originalLists, scaleBasedOn) => {
   let updatedList = [];
   for (let i = 0; i < scaleBasedOn.length; i++) {
@@ -27,20 +26,22 @@ const reProject = (originalProjects) => {
   for (let i = 0; i < originalProjects.length; i++) {
     updatedProjects.push({
       name: originalProjects[i].name,
-      content: reList(originalProjects[i].content, ['high', 'medium', 'low'])    });
+      content: reList(originalProjects[i].content, ['high', 'medium', 'low']),
+    });
   }
   return updatedProjects;
 };
 // SAVED DATA
-let rawData = reProject(allProjects)
-const checkLocalData = () => {
+const checkLocalData = (dataInput) => {
+  let data = '';
   if (localStorage.getItem('user')) {
     console.log('loading saved user data');
-    rawData = JSON.parse(localStorage.getItem('user'));
+    data = JSON.parse(localStorage.getItem('user'));
   } else {
     console.log('created new user data');
-    rawData = allProjects;
+    data = reProject(dataInput);
   }
+  return data;
 };
 // CANCEL
 const cancelButton = (data, parent) => {
@@ -59,15 +60,15 @@ const deleteButton = (data, parent, targetArr, targetIndex) => {
 };
 
 const priorityMaker = (parent, scaleArray, defaultScale) => {
-  const priorityContainer = elMaker('div', parent, '', 'priority-container');
+  const priorityContainer = elMaker('div', parent, 'priority:', 'priority-container');
   for (let i = 0; i < scaleArray.length; i++) {
-    const radioInput = elMaker('input', priorityContainer, scaleArray[i], 'priority');
+    const radioInput = elMaker('input', priorityContainer, scaleArray[i], 'priority', 'priority-input', `priority-input-${scaleArray[i]}`);
     radioInput.setAttribute('name', 'priority');
     radioInput.setAttribute('type', 'radio');
     radioInput.setAttribute('value', scaleArray[i]);
     radioInput.id = `priority-${scaleArray[i]}`;
 
-    const label = elMaker('label', priorityContainer, scaleArray[i]);
+    const label = elMaker('label', priorityContainer, '', 'priority-label', `priority-label-${scaleArray[i]}`);
     label.setAttribute('for', `priority-${scaleArray[i]}`);
     // DEFAULT
     if (scaleArray[i] === defaultScale) {
@@ -210,9 +211,7 @@ const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
 };
 
 // DISPLAY DATA
-const fillData = (dataInput, parent) => {
-  let data = reProject(dataInput)
-  // CLEAR MAIN BODY
+const fillData = (data, parent) => {
   childRemover(parent);
   // FILL MAIN BODY
   for (let i = 0; i < data.length; i++) {
@@ -227,7 +226,14 @@ const fillData = (dataInput, parent) => {
     const midProject = elMaker('div', projectContainer, '', 'mid-project');
     if (data[i].content) {
       for (let j = 0; j < data[i].content.length; j++) {
-        const listContainer = elMaker('div', midProject, '', 'list-container', `list-container-${i}-${j}`, `priority-${data[i].content[j].priority}`);
+        const listContainer = elMaker(
+          'div',
+          midProject,
+          '',
+          'list-container',
+          `list-container-${i}-${j}`,
+          `priority-${data[i].content[j].priority}`
+        );
         // TOP LIST
         const buttonContainer = elMaker('div', listContainer, '', 'button-container', 'hidden');
         editButton(data, buttonContainer, i, j);
@@ -267,7 +273,7 @@ const fillData = (dataInput, parent) => {
   });
 };
 
-checkLocalData();
+let rawData = checkLocalData(allProjects);
 const content = document.querySelector('.content');
 
 makeNavbar(document.querySelector('.content'));
@@ -275,12 +281,5 @@ const mainBody = elMaker('div', content, '', 'main-body');
 fillData(rawData, mainBody);
 
 content.addEventListener('click', function () {
-  fillData(rawData, mainBody);
+  fillData(reProject(rawData), mainBody);
 });
-
-
-// console.table(rawData);
-// console.table(reProject(rawData));
-
-
-
