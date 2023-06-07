@@ -24,17 +24,17 @@ const functions = (() => {
     }
   };
   // ELEMENT MAKER
-  const elMaker = (type, parent, text = '', className1, className2) => {
-    const el = document.createElement(type);
-    if (className1 !== undefined && className2 !== undefined) {
-      el.classList.add(className1, className2);
-    } else if (className1 !== undefined && className2 === undefined) {
-      el.classList.add(className1);
-    }
-    el.innerText = text;
-    parent.appendChild(el);
-    return el;
-  };
+  const elMaker = (type, parent, text = '', ...classNames) => {
+    const element = document.createElement(type);
+    if (classNames) {
+      for (const className of classNames) {
+        element.classList.add(className);      
+      }
+    element.innerText = text;
+    parent.appendChild(element);
+    return element;
+  }};
+
   // CHILD REMOVER
   const childRemover = (parent) => {
     while (parent.hasChildNodes()) {

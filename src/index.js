@@ -11,8 +11,28 @@ const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
 const displayTime = functions.displayTime;
 
+
+const reList = (originalLists, scaleBasedOn) => {
+  let updatedList = [];
+  for (let i = 0; i < scaleBasedOn.length; i++) {
+    let scale = originalLists.filter((c) => c.priority === scaleBasedOn[i]);
+    for (let j = 0; j < scale.length; j++) {
+      updatedList.push(scale[j]);
+    }
+  }
+  return updatedList;
+};
+const reProject = (originalProjects) => {
+  let updatedProjects = [];
+  for (let i = 0; i < originalProjects.length; i++) {
+    updatedProjects.push({
+      name: originalProjects[i].name,
+      content: reList(originalProjects[i].content, ['high', 'medium', 'low'])    });
+  }
+  return updatedProjects;
+};
 // SAVED DATA
-let rawData = '';
+let rawData = reProject(allProjects)
 const checkLocalData = () => {
   if (localStorage.getItem('user')) {
     console.log('loading saved user data');
@@ -190,7 +210,8 @@ const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
 };
 
 // DISPLAY DATA
-const fillData = (data, parent) => {
+const fillData = (dataInput, parent) => {
+  let data = reProject(dataInput)
   // CLEAR MAIN BODY
   childRemover(parent);
   // FILL MAIN BODY
@@ -206,7 +227,7 @@ const fillData = (data, parent) => {
     const midProject = elMaker('div', projectContainer, '', 'mid-project');
     if (data[i].content) {
       for (let j = 0; j < data[i].content.length; j++) {
-        const listContainer = elMaker('div', midProject, '', 'list-container', `list-container-${i}-${j}`);
+        const listContainer = elMaker('div', midProject, '', 'list-container', `list-container-${i}-${j}`, `priority-${data[i].content[j].priority}`);
         // TOP LIST
         const buttonContainer = elMaker('div', listContainer, '', 'button-container', 'hidden');
         editButton(data, buttonContainer, i, j);
@@ -226,7 +247,7 @@ const fillData = (data, parent) => {
         // SHOW BUTTONS WHEN SELECTED
         hideAllButOne(listContainer, 'click', buttonContainer, bottomList);
         // SAVED USER DATA
-        localStorage.setItem('user', JSON.stringify(rawData));
+        localStorage.setItem('user', JSON.stringify(data));
       }
     }
     // BOTTOM PROJECT
@@ -248,35 +269,18 @@ const fillData = (data, parent) => {
 
 checkLocalData();
 const content = document.querySelector('.content');
-content.addEventListener('click', function () {
-  fillData(rawData, mainBody);
-});
 
 makeNavbar(document.querySelector('.content'));
 const mainBody = elMaker('div', content, '', 'main-body');
 fillData(rawData, mainBody);
 
+content.addEventListener('click', function () {
+  fillData(rawData, mainBody);
+});
 
 
-const reList = (originalLists, scaleBasedOn) => {
-  let updatedList = [];
-  for (let i = 0; i < scaleBasedOn.length; i++) {
-    let scale = originalLists.filter((c) => c.priority === scaleBasedOn[i]);
-    for (let i = 0; i < scale.length; i++) {
-      updatedList.unshift(scale[i]);
-    }
-  }
-  return updatedList;
-};
-const reProject = (originalProjects) => {
-  let updatedProjects = [];
-  for (let i = 0; i < originalProjects.length; i++) {
-    updatedProjects.push({
-      name: originalProjects[i].name,
-      content: reList(originalProjects[i].content, ['low', 'medium', 'high'])    });
-  }
-  return updatedProjects;
-};
+// console.table(rawData);
+// console.table(reProject(rawData));
 
-console.table(rawData);
-console.table(reProject(rawData));
+
+

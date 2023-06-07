@@ -297,3 +297,10 @@ input {
 .priority-input:checked {
   background-color: red;
 }
+
+.priority-high {
+  border-left: solid 3px red;
+}
+.priority-medium {
+  border-left: solid 3px yellow;
+}
