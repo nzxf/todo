@@ -243,7 +243,9 @@ input {
 }
 
 .list-time,
-.list-date {
+.list-date,
+.list-due,
+.list-priority {
   color: rgba(0, 0, 0, 0.3);
   font-size: .9rem;
 }
@@ -273,4 +275,25 @@ input {
   height: 0px;
   overflow: hidden;
 
+}
+
+.priority-container {
+  display: flex;
+  background-color: greenyellow;
+}
+
+.priority-label {
+  background-color: yellow;
+}
+.priority-label:checked {
+  background-color: red;
+}
+
+
+.priority-input {
+  background-color: orange;
+  display: hidden;
+}
+.priority-input:checked {
+  background-color: red;
 }

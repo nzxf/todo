@@ -22,7 +22,6 @@ const checkLocalData = () => {
     rawData = allProjects;
   }
 };
-
 // CANCEL
 const cancelButton = (data, parent) => {
   const cancel = elMaker('div', parent, '', 'cancel-button');
@@ -38,6 +37,25 @@ const deleteButton = (data, parent, targetArr, targetIndex) => {
     fillData(data, document.querySelector('.main-body')); // FILL MAINBODY NEW DATA
   });
 };
+
+const priorityMaker = (parent, scaleArray, defaultScale) => {
+  const priorityContainer = elMaker('div', parent, '', 'priority-container');
+  for (let i = 0; i < scaleArray.length; i++) {
+    const radioInput = elMaker('input', priorityContainer, scaleArray[i], 'priority');
+    radioInput.setAttribute('name', 'priority');
+    radioInput.setAttribute('type', 'radio');
+    radioInput.setAttribute('value', scaleArray[i]);
+    radioInput.id = `priority-${scaleArray[i]}`;
+
+    const label = elMaker('label', priorityContainer, scaleArray[i]);
+    label.setAttribute('for', `priority-${scaleArray[i]}`);
+    // DEFAULT
+    if (scaleArray[i] === defaultScale) {
+      radioInput.setAttribute('checked', '');
+    }
+  }
+};
+
 // ADD SEQUENCE
 const addButton = (data, parent, classNameArray, indexProject) => {
   const addContainer = elMaker('div', parent, '', 'add-container');
@@ -48,13 +66,18 @@ const addButton = (data, parent, classNameArray, indexProject) => {
   });
 };
 const addInput = (data, parent, classNameArray, indexProject) => {
+  const addInputContainer = elMaker('form', parent, '', 'add-input-container');
   for (let i = 0; i < classNameArray.length; i++) {
     // const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
-    const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
+    const input = elMaker('input', addInputContainer, '', `${classNameArray[i]}-input`, 'input');
     input.placeholder = classNameArray[i];
   }
+  if (classNameArray.length > 1) {
+    priorityMaker(addInputContainer, ['low', 'medium', 'high'], 'low');
+  }
+
   // CANCEL AND CONFIRM
-  const bottonContainer = elMaker('div', parent, '', 'submit-cancel-container');
+  const bottonContainer = elMaker('div', addInputContainer, '', 'submit-cancel-container');
   cancelButton(data, bottonContainer);
   submitAddButton(data, bottonContainer, indexProject);
 };
@@ -64,37 +87,20 @@ const submitAddButton = (data, parent, indexProject) => {
     event.preventDefault();
     // ADD PROJECT
     if (!data[indexProject]) {
-      if (document.querySelector('.name-input').value === '') {
-        // no input
-        data.push({
-          name: 'empty',
-          content: [],
-        });
-      } else {
-        // yes input
-        data.push({
-          name: document.querySelector('.name-input').value,
-          content: [],
-        });
-      }
+      data.push({
+        name: document.querySelector('.name-input').value,
+        content: [],
+      });
     }
     // ADD LIST
     else if (data[indexProject].content) {
-      // no input in both
-      if (document.querySelector('.title-input').value === '' && document.querySelector('.text-input').value === '') {
-        data[indexProject].content.push({
-          title: '',
-          text: 'empty',
-          created: timeCreation(),
-        });
-      } else {
-        // at least one input
-        data[indexProject].content.push({
-          title: document.querySelector('.title-input').value,
-          text: document.querySelector('.text-input').value,
-          created: timeCreation(),
-        });
-      }
+      data[indexProject].content.push({
+        title: document.querySelector('.title-input').value,
+        text: document.querySelector('.text-input').value,
+        priority: document.querySelector('.priority:checked').value,
+        created: timeCreation(),
+        due: [0, 0, 0, 0, 0],
+      });
     }
     return fillData(data, document.querySelector('.main-body'));
   });
@@ -112,29 +118,27 @@ const editButton = (data, parent, indexProject, indexList) => {
       // LIST
       const listContainerX = document.querySelector(`.list-container-${indexProject}-${indexList}`);
       childRemover(listContainerX);
-      editInput(data, listContainerX, ['title', 'text'], indexProject, indexList);
+      editInput(data, listContainerX, ['title', 'text', 'due'], indexProject, indexList);
     }
   });
 };
 const editInput = (data, parent, classNameArray, indexProject, indexList) => {
+  const editInputContainer = elMaker('div', parent, '', 'edit-input-container');
   for (let i = 0; i < classNameArray.length; i++) {
-    // const label = elMaker('label', parent, classNameArray[i], `${classNameArray[i]}-label`);
-    const input = elMaker('input', parent, '', `${classNameArray[i]}-input`, 'input');
-
-    // label.addEventListener('click', function (e) {
-    //   e.stopPropagation();
-    // });
-    input.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
+    // const label = elMaker('label', editInputContainer, classNameArray[i], `${classNameArray[i]}-label`);
+    const input = elMaker('input', editInputContainer, '', `${classNameArray[i]}-input`, 'input');
 
     if (classNameArray[i] == 'name') {
       input.value = data[indexProject][classNameArray[i]];
-    } else if (classNameArray[i] == 'title' || classNameArray[i] == 'text') {
+    } else {
       input.value = data[indexProject].content[indexList][classNameArray[i]];
     }
   }
-  const bottonContainer = elMaker('div', parent, '', 'submit-cancel-container');
+  if (classNameArray.length > 1) {
+    priorityMaker(editInputContainer, ['low', 'medium', 'high'], data[indexProject].content[indexList]['priority']);
+  }
+
+  const bottonContainer = elMaker('div', editInputContainer, '', 'submit-cancel-container');
   cancelButton(data, bottonContainer);
   submitEditButton(data, bottonContainer, indexProject, indexList);
 };
@@ -154,7 +158,9 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
       data[indexProject].content.splice(indexList, 1, {
         title: document.querySelector('.title-input').value,
         text: document.querySelector('.text-input').value,
+        priority: document.querySelector('.priority:checked').value,
         created: timeCreation(),
+        due: [0, 0, 0, 0, 0],
       });
     }
     // UPDATE DATA DISPLAY
@@ -214,7 +220,9 @@ const fillData = (data, parent) => {
         const bottomList = elMaker('div', listContainer, '', 'bottom-list', 'hidden');
         // const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
         // const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
-        elMaker('div', bottomList, displayTime(data[i].content[j].created), 'list-date'); // BOTH
+        elMaker('div', bottomList, `created ${displayTime(data[i].content[j].created)}`, 'list-date');
+        elMaker('div', bottomList, `due ${displayTime(data[i].content[j].due)}`, 'list-due');
+        elMaker('div', bottomList, `priority ${data[i].content[j].priority}`, 'list-priority'); // BOTH
         // SHOW BUTTONS WHEN SELECTED
         hideAllButOne(listContainer, 'click', buttonContainer, bottomList);
         // SAVED USER DATA
@@ -223,7 +231,7 @@ const fillData = (data, parent) => {
     }
     // BOTTOM PROJECT
     const bottomProject = elMaker('div', projectContainer, '', 'bottom-project');
-    addButton(data, bottomProject, ['title', 'text'], i);
+    addButton(data, bottomProject, ['title', 'text', 'due'], i);
     bottomProject.addEventListener('click', function (e) {
       e.stopPropagation();
     });
@@ -240,11 +248,35 @@ const fillData = (data, parent) => {
 
 checkLocalData();
 const content = document.querySelector('.content');
-content.onclick = function () {
+content.addEventListener('click', function () {
   fillData(rawData, mainBody);
-};
-
+});
 
 makeNavbar(document.querySelector('.content'));
 const mainBody = elMaker('div', content, '', 'main-body');
 fillData(rawData, mainBody);
+
+
+
+const reList = (originalLists, scaleBasedOn) => {
+  let updatedList = [];
+  for (let i = 0; i < scaleBasedOn.length; i++) {
+    let scale = originalLists.filter((c) => c.priority === scaleBasedOn[i]);
+    for (let i = 0; i < scale.length; i++) {
+      updatedList.unshift(scale[i]);
+    }
+  }
+  return updatedList;
+};
+const reProject = (originalProjects) => {
+  let updatedProjects = [];
+  for (let i = 0; i < originalProjects.length; i++) {
+    updatedProjects.push({
+      name: originalProjects[i].name,
+      content: reList(originalProjects[i].content, ['low', 'medium', 'high'])    });
+  }
+  return updatedProjects;
+};
+
+console.table(rawData);
+console.table(reProject(rawData));
