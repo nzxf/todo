@@ -8,10 +8,6 @@
   src: url('./fonts/bold.ttf');
 }
 @font-face {
-  font-family: 'myFontRegular';
-  src: url('./fonts/regular.ttf');
-}
-@font-face {
   font-family: 'myFontMedium';
   src: url('./fonts/medium.ttf');
 }
@@ -28,7 +24,6 @@
   font-family: 'myFont';
   font-size: .9rem;
   color: rgb(141, 141, 141);
-  /* border: solid 1px grey; */
 }
 
 body {
@@ -115,7 +110,6 @@ body {
   gap: 15px;
 
   overflow: scroll;
-  /* justify-content: center; */
 }
 
 .project-container,
@@ -156,7 +150,6 @@ body {
   width: 25px;
   height: 25px;
 
-  /* border-radius: 50%; */
   background-position: center;
   background-repeat: no-repeat;
 
@@ -265,7 +258,6 @@ input,
 .list-title {
   color: rgba(0, 0, 0, 0.7);
   font-family: 'myFontMedium';
-  /* background-color: green; */
 }
 
 .list-text {
@@ -303,6 +295,7 @@ input,
   border-right: solid 7.5px rgba(0, 128, 0, 0.5);
 }
 
+
 /* PRIORITY INPUT */
 .priority-container {
   display: grid;
@@ -310,7 +303,10 @@ input,
   justify-content: start;
   align-items: center;
   color: grey;
-  /* background-color: transparent; */
+}
+
+.priority {
+  transform: translateY(-2px);
 }
 
 .priority-input {
@@ -318,8 +314,8 @@ input,
   height: 1.6rem;
   background-color: transparent;
   appearance: none;
-  /* display: none; */
   text-align: center;
+  transform: translateY(-0.3px);
 }
 
 .priority-input-low:checked {
