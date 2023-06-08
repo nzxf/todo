@@ -3,14 +3,31 @@
   src: url('./fonts/font.ttf');
 }
 
+@font-face {
+  font-family: 'myFontBold';
+  src: url('./fonts/bold.ttf');
+}
+@font-face {
+  font-family: 'myFontRegular';
+  src: url('./fonts/regular.ttf');
+}
+@font-face {
+  font-family: 'myFontMedium';
+  src: url('./fonts/medium.ttf');
+}
+@font-face {
+  font-family: 'myFontLight';
+  src: url('./fonts/light.ttf');
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   border: 0;
   padding: 0;
   font-family: 'myFont';
-  font-size: 1rem;
-  /* color: rgb(141, 141, 141); */
+  font-size: .9rem;
+  color: rgb(141, 141, 141);
   /* border: solid 1px grey; */
 }
 
@@ -21,7 +38,6 @@ body {
   justify-content: center;
   align-items: center;
   background-color: black;
-  /* background-image: url('/src/images/background.jpg'); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -48,6 +64,8 @@ body {
   align-items: center;
   gap: 15px;
   padding: 7.5px;
+
+  width: 90%;
 }
 
 .navbar > div {
@@ -58,9 +76,10 @@ body {
 }
 
 .app-name {
-  font-size: 1.2rem;
-  font-weight: 600;
+  padding-top: 3px;
+  font-size: 1.5rem;
   color: rgba(255, 255, 255, 0.8);
+  font-family: 'myFontBold';
 }
 
 .app-icon {
@@ -99,7 +118,7 @@ body {
 .main-body {
   padding: 25px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 220px);
+  grid-template-columns: repeat(auto-fill, 200px);
   grid-template-rows: repeat(5, 1fr);
   gap: 15px;
 
@@ -123,20 +142,19 @@ body {
 
 .project-name {
   width: 100%;
-  font-weight: bold;
-  font-size: 1.1rem;
-  height: 35px;
+  font-family: 'myFontBold';
+  font-size: 1.3rem;
+  height: 32.5px;
   padding: 10px 2.5px 5px;
 }
 
 .list-container {
-  width: 200px;
+  width: 180px;
   height: auto;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 10px;
 
   border-radius: 5px;
-  transition: all 2s;
 }
 
 .edit-button,
@@ -160,12 +178,12 @@ body {
 
 .edit-button {
   background-image: url('./images/edit.png');
-  background-size: 18px;
+  background-size: 15px;
 }
 
 .delete-button {
   background-image: url('./images/delete.png');
-  background-size: 17.5px;
+  background-size: 14.5px;
 }
 
 .add-container {
@@ -218,7 +236,7 @@ body {
 input,
 .priority-container {
   width: 100%;
-  height: fit-content;
+  height: 1.9rem;
   padding: 2px 5px;
   margin-bottom: 2.5px;
   border: 0;
@@ -226,33 +244,8 @@ input,
   background-color: rgb(231, 231, 231);
 }
 
-.project-name {
-  color: rgba(0, 0, 0, 0.9);
-  font-weight: 600;
-}
-
-.list-title {
-  color: rgba(0, 0, 0, 0.7);
-  font-weight: 600;
-  /* background-color: green; */
-}
-
-.list-text {
-  color: rgba(0, 0, 0, 0.6);
-  margin-top: 2.5px;
-}
-
-.list-time,
-.list-date,
-.list-due,
-.list-priority {
-  color: rgba(0, 0, 0, 0.3);
-  font-size: 0.9rem;
-}
-
-.bottom-list {
-  margin-top: 7.5px;
-  text-align: end;
+.text-input {
+  overflow: visible;
 }
 
 .mid-project {
@@ -265,6 +258,36 @@ input,
 .top-list {
   display: flex;
   justify-content: end;
+  height: 2.5rem;
+}
+
+.bottom-list {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: end;
+  height: 3rem;
+}
+
+.list-title {
+  color: rgba(0, 0, 0, 0.7);
+  font-family: 'myFontMedium';
+  /* background-color: green; */
+}
+
+.list-text {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: 'myFontLight';
+  margin-top: 5px;
+}
+
+.list-time,
+.list-date,
+.list-due,
+.list-priority {
+  color: rgba(0, 0, 0, 0.3);
+  font-family: 'myFontLight';
+  font-size: 0.8rem;
 }
 
 .list-container {
@@ -278,20 +301,20 @@ input,
 
 /* COLOR SCHEME PRIORITY */
 .priority-high {
-  border-left: solid 2px rgba(255, 0, 0, 0.5);
+  border-right: solid 7.5px rgba(255, 0, 0, 0.5);
 }
 .priority-medium {
-  border-left: solid 2px rgba(255, 255, 0, 0.5);
+  border-right: solid 7.5px rgba(255, 255, 0, 0.5);
 }
 .priority-low {
-  border-left: solid 2px rgba(0, 128, 0, 0.5);
+  border-right: solid 7.5px rgba(0, 128, 0, 0.5);
 }
 
 /* PRIORITY INPUT */
 .priority-container {
   display: grid;
-  grid-template-columns: auto repeat(3, 1fr 0);
-  justify-content: center;
+  grid-template-columns: 1fr repeat(3, 1fr 0);
+  justify-content: start;
   align-items: center;
   color: grey;
   /* background-color: transparent; */
@@ -299,7 +322,11 @@ input,
 
 .priority-input {
   background-color: rgb(255, 255, 255);
+  height: 1.6rem;
+  background-color: transparent;
   appearance: none;
+  /* display: none; */
+  text-align: center;
 }
 
 .priority-input-low:checked {
@@ -307,8 +334,7 @@ input,
   color: white;
 }
 .priority-input-medium:checked {
-  background-color: rgba(255, 255, 0, 0.5);
-  font-weight: 600;
+  background-color: rgb(255, 230, 0, 0.7);
   color: white;
 }
 .priority-input-high:checked {
