@@ -63,9 +63,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 15px;
-  padding: 7.5px;
-
-  width: 90%;
+  padding: 10px 22.5px;
 }
 
 .navbar > div {
@@ -95,21 +93,15 @@ body {
 }
 
 .user-name {
-  color: rgba(255, 255, 255, 0.075);
+  color: transparent;
 }
 
 /* .user-icon {
-  background-image: url(https://cdn-icons-png.flaticon.com/512/366/366354.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  
-  border: solid 1px black;
+  background-color: transparent;
   border-radius: 50%;
 
-  filter: invert(1);
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   margin: 0 5px;
 } */
 
@@ -341,4 +333,14 @@ input,
 .priority-input-high:checked {
   background-color: rgba(255, 0, 0, 0.5);
   color: white;
+}
+
+@media only screen and (max-width: 700px){
+  .navbar {
+    grid-template-columns: 1fr 0 0;
+    padding-left: 45px;
+  }
+  .main-body {
+    justify-content: center;
+  }
 }

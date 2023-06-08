@@ -5,42 +5,15 @@ import { allProjects } from './seeds';
 import { functions } from './allFunctions';
 import el from 'date-fns/esm/locale/el/index.js';
 
+const upperFirst = functions.upperFirst;
 const elMaker = functions.elMaker;
 const makeNavbar = functions.makeNavbar;
 const childRemover = functions.childRemover;
 const timeCreation = functions.timeCreation;
 const displayTime = functions.displayTime;
+const reProject = functions.reProject;
+const checkLocalData = functions.checkLocalData;
 
-const reList = (originalLists, scaleBasedOn) => {
-  let updatedList = [];
-  for (let i = 0; i < scaleBasedOn.length; i++) {
-    let scale = originalLists.filter((c) => c.priority === scaleBasedOn[i]);
-    for (let j = 0; j < scale.length; j++) {
-      updatedList.push(scale[j]);
-    }
-  }
-  return updatedList;
-};
-const reProject = (originalProjects) => {
-  let updatedProjects = [];
-  for (let i = 0; i < originalProjects.length; i++) {
-    updatedProjects.push({
-      name: originalProjects[i].name,
-      content: reList(originalProjects[i].content, ['high', 'medium', 'low']),
-    });
-  }
-  return updatedProjects;
-};
-// SAVED DATA
-const checkLocalData = (dataInput) => {
-  let data = '';
-  if (localStorage.getItem('user')) {
-    data = JSON.parse(localStorage.getItem('user'));
-  } else {
-    data = dataInput;
-  }
-  return data;
-};
 // CANCEL
 const cancelButton = (data, parent) => {
   const cancel = elMaker('div', parent, '', 'cancel-button');
@@ -63,7 +36,7 @@ const deleteButton = (data, parent, targetArr, targetIndex) => {
 
 const priorityMaker = (parent, scaleArray, defaultScale) => {
   const priorityContainer = elMaker('div', parent, '', 'priority-container');
-  const priority = elMaker('div', priorityContainer, 'priority:')
+  const priority = elMaker('div', priorityContainer, 'priority:');
   for (let i = 0; i < scaleArray.length; i++) {
     const radioInput = elMaker(
       'input',
@@ -107,7 +80,7 @@ const addInput = (data, parent, classNameArray, indexProject) => {
       const input = elMaker('input', addInputContainer, '', `${classNameArray[i]}-input`, 'input');
       input.placeholder = classNameArray[i];
     }
-      priorityMaker(addInputContainer, ['low', 'medium', 'high'], 'low');
+    priorityMaker(addInputContainer, ['low', 'medium', 'high'], 'low');
   }
 
   // CANCEL AND CONFIRM
@@ -121,20 +94,42 @@ const submitAddButton = (data, parent, indexProject) => {
     event.preventDefault();
     // ADD PROJECT
     if (!data[indexProject]) {
-      data.push({
-        name: document.querySelector('.name-input').value,
-        content: [],
-      });
+      const nameInput = document.querySelector('.name-input').value;
+      // Avoid empty input
+      if (nameInput === '') {
+        data.push({ name: 'empty', content: [] });
+      } else {
+        // Normal Input
+        data.push({
+          name: nameInput,
+          content: [],
+        });
+      }
     }
     // ADD LIST
     else if (data[indexProject].content) {
-      data[indexProject].content.push({
-        title: document.querySelector('.title-input').value,
-        text: document.querySelector('.text-input').value,
-        priority: document.querySelector('.priority:checked').value,
-        created: timeCreation(),
-        due: [0, 0, 0, 0, 0],
-      });
+      const titleInput = document.querySelector('.title-input').value;
+      const textInput = document.querySelector('.text-input').value;
+      const priorityInput = document.querySelector('.priority:checked').value;
+      // Avoid empty input
+      if (titleInput === '' && textInput === '') {
+        data[indexProject].content.push({
+          title: '',
+          text: 'empty',
+          priority: priorityInput,
+          created: timeCreation(),
+          due: [0, 0, 0, 0, 0],
+        });
+      } else {
+        // normal input
+        data[indexProject].content.push({
+          title: titleInput,
+          text: textInput,
+          priority: priorityInput,
+          created: timeCreation(),
+          due: [0, 0, 0, 0, 0],
+        });
+      }
     }
     // SAVED USER DATA
     localStorage.setItem('user', JSON.stringify(data));
@@ -255,8 +250,8 @@ const fillData = (data, parent) => {
         deleteButton(data, buttonContainer, data[i].content, j);
         // MID LIST
         const midList = elMaker('div', listContainer, '', 'mid-list');
-        elMaker('div', midList, data[i].content[j].title, 'list-title');
-        elMaker('div', midList, data[i].content[j].text, 'list-text');
+        elMaker('div', midList, upperFirst(data[i].content[j].title), 'list-title');
+        elMaker('div', midList, upperFirst(data[i].content[j].text), 'list-text');
         // BOTTOM LIST
         const bottomList = elMaker('div', listContainer, '', 'bottom-list', 'hidden');
         // const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
