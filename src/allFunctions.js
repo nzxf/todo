@@ -76,7 +76,7 @@ const functions = (() => {
     for (let i = 0; i < originalProjects.length; i++) {
       updatedProjects.push({
         name: originalProjects[i].name,
-        content: reList(originalProjects[i].content, ['high', 'medium', 'low']),
+        content: reList(originalProjects[i].content, ['high', 'medium', 'low', 'zero']),
       });
     }
     return updatedProjects;

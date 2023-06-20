@@ -23,3 +23,5 @@ const loadPage = (data) => {
 };
 
 loadPage(allProjects);
+
+console.log(allProjects)

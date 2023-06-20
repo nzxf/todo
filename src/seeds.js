@@ -37,10 +37,16 @@ const addTask = (name, title, text, priority, due = [0,0,0,0,0], created = timeC
   }
 };
 
-addTask('Personal', 'grocery', 'Bread, chips, and orange juice', 'low', [3, 54, 20, 9, 2023]);
-addTask('social', 'Collegue', 'go out for dinner with workmates', 'low');
+// INPUT TESTER
+// (all mixed: upper+lowercase name)
+// Complete data
 addTask('personal', 'bookstore', 'Buy programming book', 'medium', [2, 23, 11, 5, 2023], [4, 23, 11, 5, 2023]);
+// no due date
+addTask('Personal', 'grocery', 'Bread, chips, and orange juice', 'low', [3, 54, 20, 9, 2023]);
 addTask('personal', 'Park', 'walk Shiro for 30 minutes', 'high', [2, 23, 11, 5, 2023]);
+// no created date & due date
+addTask('social', 'Collegue', 'go out for dinner with workmates', 'low');
 addTask('Social', 'BBQ', 'Prepare the upcoming BBQ party', 'low');
+addTask('personal', 'house cleaning', 'Do laundry and dishes', 'zero');
 
 export { allProjects };
