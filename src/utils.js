@@ -27,7 +27,7 @@ const deleteButton = (data, parent, targetArr, targetIndex) => {
 };
 const priorityMaker = (parent, scaleArray, defaultScale) => {
   const priorityContainer = elMaker('div', parent, '', 'priority-container');
-  const priority = elMaker('div', priorityContainer, 'priority:', 'priority');
+  const priority = elMaker('div', priorityContainer, 'Priority:', 'priority');
   for (let i = 0; i < scaleArray.length; i++) {
     const radioInput = elMaker(
       'input',
@@ -96,13 +96,26 @@ const dueTranslator = (hourInput, dayInput) => {
   }
 };
 
-const checkboxMaker = (parent) => {
+const checkboxMaker = (data, parent, indextProject, indexList) => {
   const checkboxContainer = elMaker('form', parent, '', 'checkbox-container');
   const checkbox = elMaker('input', checkboxContainer, '', 'checkbox');
+  checkbox.setAttribute('data-project', indextProject)
+  checkbox.setAttribute('data-list', indexList)
   checkbox.setAttribute('type', 'checkbox');
   checkbox.addEventListener('change', () => {
-    console.log('checkbox marked');
-  });
+    let currentStatus = data[indextProject].content[indexList].status
+    if (currentStatus === 'on progress'){
+      data[indextProject].content[indexList].status = 'complete'
+      data[indextProject].content[indexList].priority = 'zero'
+    } else {
+      data[indextProject].content[indexList].status = 'on progress'
+      data[indextProject].content[indexList].priority = 'low'
+    }
+    // SAVED USER DATA
+    localStorage.setItem('user', JSON.stringify(data));
+    // UPDATE DATA DISPLAY
+    return fillData(reProject(data), document.querySelector('.main-body'));
+  }); 
 };
 // ADD SEQUENCE
 const addButton = (data, parent, classNameArray, indexProject) => {
@@ -182,6 +195,7 @@ const submitAddButton = (data, parent, indexProject) => {
           title: '',
           text: 'empty',
           priority: priorityInput,
+          status: 'on progress',
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
@@ -191,6 +205,7 @@ const submitAddButton = (data, parent, indexProject) => {
           title: titleInput,
           text: textInput,
           priority: priorityInput,
+          status: 'on progress',
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
@@ -289,6 +304,7 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
         title: document.querySelector('.title-input').value,
         text: document.querySelector('.text-input').value,
         priority: document.querySelector('.priority:checked').value,
+        status: 'on progress',
         created: timeCreation(),
         due: dueTranslator(dueTimeInput, dueDayInput),
       });
@@ -369,7 +385,7 @@ const fillData = (data, parent) => {
           'button-container',
           'hidden'
         );
-        // checkboxMaker(buttonContainer)
+        checkboxMaker(data, buttonContainer, i, j)
         editButton(data, buttonContainer, i, j);
         deleteButton(data, buttonContainer, data[i].content, j);
         // MID LIST
@@ -411,9 +427,15 @@ const fillData = (data, parent) => {
         elMaker(
           'div',
           bottomList,
+          `status: ${data[i].content[j].status}`,
+          'list-status'
+        );
+        elMaker(
+          'div',
+          bottomList,
           `${data[i].content[j].priority} priority`,
           'list-priority'
-        ); // BOTH
+        );
         // SHOW BUTTONS WHEN SELECTED
         hideAllButOne(listContainer, 'click', buttonContainer, bottomList);
       }
