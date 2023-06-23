@@ -11,7 +11,7 @@ import { fillData } from './utils';
 
 const loadPage = (data) => {
   const content = document.querySelector('.content');
-  
+
   content.addEventListener('click', function () {
     fillData(reProject(checkLocalData(data)), mainBody);
   });
@@ -23,5 +23,3 @@ const loadPage = (data) => {
 };
 
 loadPage(allProjects);
-
-console.log(allProjects)

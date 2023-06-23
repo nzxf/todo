@@ -6,7 +6,6 @@ const childRemover = functions.childRemover;
 const displayTime = functions.displayTime;
 const reProject = functions.reProject;
 
-
 // CANCEL
 const cancelButton = (data, parent) => {
   const cancel = elMaker('div', parent, '', 'cancel-button');
@@ -43,7 +42,13 @@ const priorityMaker = (parent, scaleArray, defaultScale) => {
     radioInput.setAttribute('value', scaleArray[i]);
     radioInput.id = `priority-${scaleArray[i]}`;
 
-    const label = elMaker('label', priorityContainer, '', 'priority-label', `priority-label-${scaleArray[i]}`);
+    const label = elMaker(
+      'label',
+      priorityContainer,
+      '',
+      'priority-label',
+      `priority-label-${scaleArray[i]}`
+    );
     label.setAttribute('for', `priority-${scaleArray[i]}`);
     // DEFAULT
     if (scaleArray[i] === defaultScale) {
@@ -52,6 +57,53 @@ const priorityMaker = (parent, scaleArray, defaultScale) => {
   }
 };
 
+const dueMaker = (parent) => {
+  const dueContainer = elMaker('div', parent, '', 'due-container');
+  const dueIn = elMaker('div', dueContainer, 'Due in:');
+  const timeInput = elMaker('input', dueContainer, '00', 'time-input');
+  timeInput.setAttribute('type', 'number');
+  timeInput.setAttribute('value', '0');
+  timeInput.setAttribute('min', '0');
+  timeInput.setAttribute('max', '24');
+  const timeLabel = elMaker('label', dueContainer, 'hour(s)', 'time-label');
+  const dayInput = elMaker('input', dueContainer, '00', 'day-input');
+  dayInput.setAttribute('type', 'number');
+  dayInput.setAttribute('value', '0');
+  dayInput.setAttribute('min', '0');
+  dayInput.setAttribute('max', '30');
+  const dayLabel = elMaker('label', dueContainer, 'day(s)', 'day-label');
+};
+const dueTranslator = (hourInput, dayInput) => {
+  if (hourInput == 0 && dayInput == 0) {
+    return [0, 0, 0, 0, 0];
+  } else {
+    // ADD MISSING PARTS
+    let hour = new Date().getHours() + parseInt(hourInput);
+    let minute = new Date().getMinutes();
+    let day = new Date().getDate() + parseInt(dayInput);
+    let month = new Date().getMonth();
+    let year = new Date().getFullYear();
+    // COMBINING INTO ONE FORMAT
+    const event = new Date(year, month, day, hour, minute, 0);
+    const optionD = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const optionT = { hour12: false };
+    const datePart = event.toLocaleDateString('en-GB', optionD);
+    const timePart = event.toLocaleTimeString(undefined, optionT);
+    // PARSE & PUT INTO ARRAY
+    const newDate = datePart.split('/').map((num) => parseInt(num));
+    const newTime = timePart.split(':', 2).map((num) => parseInt(num));
+    return newTime.concat(newDate);
+  }
+};
+
+const checkboxMaker = (parent) => {
+  const checkboxContainer = elMaker('form', parent, '', 'checkbox-container');
+  const checkbox = elMaker('input', checkboxContainer, '', 'checkbox');
+  checkbox.setAttribute('type', 'checkbox');
+  checkbox.addEventListener('change', () => {
+    console.log('checkbox marked');
+  });
+};
 // ADD SEQUENCE
 const addButton = (data, parent, classNameArray, indexProject) => {
   const addContainer = elMaker('div', parent, '', 'add-container');
@@ -64,19 +116,37 @@ const addButton = (data, parent, classNameArray, indexProject) => {
 const addInput = (data, parent, classNameArray, indexProject) => {
   const addInputContainer = elMaker('form', parent, '', 'add-input-container');
   if (classNameArray.includes('name')) {
-    const input = elMaker('input', addInputContainer, '', `${classNameArray[0]}-input`, 'input');
+    const input = elMaker(
+      'input',
+      addInputContainer,
+      '',
+      `${classNameArray[0]}-input`,
+      'input'
+    );
     input.placeholder = `project ${classNameArray[0]}`;
   } else {
     for (let i = 0; i < classNameArray.length - 1; i++) {
       // remove (-1) to include due
-      const input = elMaker('input', addInputContainer, '', `${classNameArray[i]}-input`, 'input');
+      const input = elMaker(
+        'input',
+        addInputContainer,
+        '',
+        `${classNameArray[i]}-input`,
+        'input'
+      );
       input.placeholder = classNameArray[i];
     }
     priorityMaker(addInputContainer, ['low', 'medium', 'high'], 'low');
+    dueMaker(addInputContainer);
   }
 
   // CANCEL AND CONFIRM
-  const bottonContainer = elMaker('div', addInputContainer, '', 'submit-cancel-container');
+  const bottonContainer = elMaker(
+    'div',
+    addInputContainer,
+    '',
+    'submit-cancel-container'
+  );
   cancelButton(data, bottonContainer);
   submitAddButton(data, bottonContainer, indexProject);
 };
@@ -103,6 +173,9 @@ const submitAddButton = (data, parent, indexProject) => {
       const titleInput = document.querySelector('.title-input').value;
       const textInput = document.querySelector('.text-input').value;
       const priorityInput = document.querySelector('.priority:checked').value;
+      const dueTimeInput = document.querySelector('.time-input').value;
+      const dueDayInput = document.querySelector('.day-input').value;
+
       // Avoid empty input
       if (titleInput === '' && textInput === '') {
         data[indexProject].content.push({
@@ -110,7 +183,7 @@ const submitAddButton = (data, parent, indexProject) => {
           text: 'empty',
           priority: priorityInput,
           created: timeCreation(),
-          due: [0, 0, 0, 0, 0],
+          due: dueTranslator(dueTimeInput, dueDayInput),
         });
       } else {
         // normal input
@@ -119,7 +192,7 @@ const submitAddButton = (data, parent, indexProject) => {
           text: textInput,
           priority: priorityInput,
           created: timeCreation(),
-          due: [0, 0, 0, 0, 0],
+          due: dueTranslator(dueTimeInput, dueDayInput),
         });
       }
     }
@@ -135,32 +208,64 @@ const editButton = (data, parent, indexProject, indexList) => {
   editBtn.addEventListener('mouseup', function () {
     // PROJECT
     if (indexList == undefined) {
-      const topProjectX = document.querySelector(`.top-project-${indexProject}`);
+      const topProjectX = document.querySelector(
+        `.top-project-${indexProject}`
+      );
       childRemover(topProjectX);
       editInput(data, topProjectX, ['name'], indexProject, indexList);
     } else {
       // LIST
-      const listContainerX = document.querySelector(`.list-container-${indexProject}-${indexList}`);
+      const listContainerX = document.querySelector(
+        `.list-container-${indexProject}-${indexList}`
+      );
       childRemover(listContainerX);
-      editInput(data, listContainerX, ['title', 'text', 'due'], indexProject, indexList);
+      editInput(
+        data,
+        listContainerX,
+        ['title', 'text', 'due'],
+        indexProject,
+        indexList
+      );
     }
   });
 };
 const editInput = (data, parent, classNameArray, indexProject, indexList) => {
   const editInputContainer = elMaker('div', parent, '', 'edit-input-container');
   if (classNameArray.includes('name')) {
-    const input = elMaker('input', editInputContainer, '', `${classNameArray[0]}-input`, 'input');
+    const input = elMaker(
+      'input',
+      editInputContainer,
+      '',
+      `${classNameArray[0]}-input`,
+      'input'
+    );
     input.value = data[indexProject][classNameArray[0]];
   } else {
     for (let i = 0; i < classNameArray.length - 1; i++) {
       // minus 1 = due
-      const input = elMaker('input', editInputContainer, '', `${classNameArray[i]}-input`, 'input');
+      const input = elMaker(
+        'input',
+        editInputContainer,
+        '',
+        `${classNameArray[i]}-input`,
+        'input'
+      );
       input.value = data[indexProject].content[indexList][classNameArray[i]];
     }
-    priorityMaker(editInputContainer, ['low', 'medium', 'high'], data[indexProject].content[indexList]['priority']);
+    priorityMaker(
+      editInputContainer,
+      ['low', 'medium', 'high'],
+      data[indexProject].content[indexList]['priority']
+    );
+    dueMaker(editInputContainer);
   }
 
-  const bottonContainer = elMaker('div', editInputContainer, '', 'submit-cancel-container');
+  const bottonContainer = elMaker(
+    'div',
+    editInputContainer,
+    '',
+    'submit-cancel-container'
+  );
   cancelButton(data, bottonContainer);
   submitEditButton(reProject(data), bottonContainer, indexProject, indexList);
 };
@@ -177,12 +282,15 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
     }
     // EDIT LIST
     else {
+      const dueTimeInput = document.querySelector('.time-input').value;
+      const dueDayInput = document.querySelector('.day-input').value;
+
       data[indexProject].content.splice(indexList, 1, {
         title: document.querySelector('.title-input').value,
         text: document.querySelector('.text-input').value,
         priority: document.querySelector('.priority:checked').value,
         created: timeCreation(),
-        due: [0, 0, 0, 0, 0],
+        due: dueTranslator(dueTimeInput, dueDayInput),
       });
     }
     // SAVED USER DATA
@@ -219,11 +327,28 @@ const fillData = (data, parent) => {
   for (let i = 0; i < data.length; i++) {
     const projectContainer = elMaker('div', parent, '', 'project-container');
     // TOP PROJECT
-    const topProject = elMaker('div', projectContainer, '', 'top-project', `top-project-${i}`);
-    const buttonContainer = elMaker('div', topProject, '', 'button-container', 'hidden');
+    const topProject = elMaker(
+      'div',
+      projectContainer,
+      '',
+      'top-project',
+      `top-project-${i}`
+    );
+    const buttonContainer = elMaker(
+      'div',
+      topProject,
+      '',
+      'button-container',
+      'hidden'
+    );
     editButton(data, buttonContainer, i);
     deleteButton(data, buttonContainer, data, i);
-    const projectName = elMaker('div', topProject, data[i].name.toUpperCase(), 'project-name');
+    const projectName = elMaker(
+      'div',
+      topProject,
+      data[i].name.toUpperCase(),
+      'project-name'
+    );
     // MID PROJECT: SHOW ALL TASKS
     const midProject = elMaker('div', projectContainer, '', 'mid-project');
     if (data[i].content) {
@@ -237,26 +362,69 @@ const fillData = (data, parent) => {
           `priority-${data[i].content[j].priority}`
         );
         // TOP LIST
-        const buttonContainer = elMaker('div', listContainer, '', 'button-container', 'hidden');
+        const buttonContainer = elMaker(
+          'div',
+          listContainer,
+          '',
+          'button-container',
+          'hidden'
+        );
+        // checkboxMaker(buttonContainer)
         editButton(data, buttonContainer, i, j);
         deleteButton(data, buttonContainer, data[i].content, j);
         // MID LIST
         const midList = elMaker('div', listContainer, '', 'mid-list');
-        elMaker('div', midList, upperFirst(data[i].content[j].title), 'list-title');
-        elMaker('div', midList, upperFirst(data[i].content[j].text), 'list-text');
+        elMaker(
+          'div',
+          midList,
+          upperFirst(data[i].content[j].title),
+          'list-title'
+        );
+        elMaker(
+          'div',
+          midList,
+          upperFirst(data[i].content[j].text),
+          'list-text'
+        );
         // BOTTOM LIST
-        const bottomList = elMaker('div', listContainer, '', 'bottom-list', 'hidden');
+        const bottomList = elMaker(
+          'div',
+          listContainer,
+          '',
+          'bottom-list',
+          'hidden'
+        );
         // const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
-        const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
-        // elMaker('div', bottomList, `created ${displayTime(data[i].content[j].created)}`, 'list-date');
-        // elMaker('div', bottomList, `due ${displayTime(data[i].content[j].due)}`, 'list-due');
-        elMaker('div', bottomList, `${data[i].content[j].priority} priority`, 'list-priority'); // BOTH
+        // const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
+        elMaker(
+          'div',
+          bottomList,
+          `created ${displayTime(data[i].content[j].created)}`,
+          'list-date'
+        );
+        elMaker(
+          'div',
+          bottomList,
+          `due ${displayTime(data[i].content[j].due)}`,
+          'list-due'
+        );
+        elMaker(
+          'div',
+          bottomList,
+          `${data[i].content[j].priority} priority`,
+          'list-priority'
+        ); // BOTH
         // SHOW BUTTONS WHEN SELECTED
         hideAllButOne(listContainer, 'click', buttonContainer, bottomList);
       }
     }
     // BOTTOM PROJECT: ADD NEW TASK
-    const bottomProject = elMaker('div', projectContainer, '', 'bottom-project');
+    const bottomProject = elMaker(
+      'div',
+      projectContainer,
+      '',
+      'bottom-project'
+    );
     addButton(data, bottomProject, ['title', 'text', 'due'], i);
     bottomProject.addEventListener('click', function (e) {
       e.stopPropagation();
@@ -265,7 +433,12 @@ const fillData = (data, parent) => {
     hideAllButOne(projectContainer, 'click', buttonContainer);
   }
   // ADD NEW PROJECT
-  const addProjectContainer = elMaker('div', parent, '', 'add-project-container');
+  const addProjectContainer = elMaker(
+    'div',
+    parent,
+    '',
+    'add-project-container'
+  );
   addButton(data, addProjectContainer, ['name']);
   addProjectContainer.addEventListener('click', function (e) {
     e.stopPropagation();

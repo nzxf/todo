@@ -22,7 +22,7 @@
   border: 0;
   padding: 0;
   font-family: 'myFont';
-  font-size: .9rem;
+  font-size: 1rem;
   color: rgb(141, 141, 141);
 }
 
@@ -105,7 +105,7 @@ body {
 .main-body {
   padding: 25px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-columns: repeat(auto-fill, 245px);
   grid-template-rows: repeat(5, 1fr);
   gap: 15px;
 
@@ -129,14 +129,14 @@ body {
 .project-name {
   width: 100%;
   font-family: 'myFontBold';
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   height: 32.5px;
   padding: 10px 2.5px 5px;
   color: rgba(0, 0, 0, 0.6);
 }
 
 .list-container {
-  width: 180px;
+  width: 225px;
   height: auto;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 10px;
@@ -220,7 +220,8 @@ body {
 }
 
 input,
-.priority-container {
+.priority-container,
+.due-container {
   width: 100%;
   height: 1.9rem;
   padding: 2px 5px;
@@ -252,12 +253,13 @@ input,
   flex-direction: column;
   align-items: end;
   justify-content: end;
-  height: 3rem;
+  height: 5rem;
 }
 
 .list-title {
   color: rgba(0, 0, 0, 0.7);
   font-family: 'myFontMedium';
+  font-size: 1.1rem;
 }
 
 .list-text {
@@ -279,6 +281,16 @@ input,
   height: fit-content;
 }
 
+.list-container>.button-container {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+}
+
+.checkbox-container {
+  height: 100%;
+  width: fit-content;
+}
+
 .hidden {
   height: 0px;
   overflow: hidden;
@@ -289,10 +301,14 @@ input,
   border-right: solid 7.5px rgba(255, 0, 0, 0.5);
 }
 .priority-medium {
-  border-right: solid 7.5px rgba(255, 255, 0, 0.5);
+  border-right: solid 7.5px rgba(255, 166, 0, 0.5);
 }
 .priority-low {
   border-right: solid 7.5px rgba(0, 128, 0, 0.5);
+}
+.priority-zero {
+  border-right: solid 7.5px rgba(97, 97, 97, 0.5);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 
@@ -323,13 +339,27 @@ input,
   color: white;
 }
 .priority-input-medium:checked {
-  background-color: rgb(255, 230, 0, 0.7);
+  background-color: rgba(255, 166, 0, 0.75);
   color: white;
 }
 .priority-input-high:checked {
   background-color: rgba(255, 0, 0, 0.5);
   color: white;
 }
+
+/* DUE INPUT */
+.due-container {
+  display: grid;
+  grid-template-columns: auto repeat(2, 40px 40px);
+  gap: 2.5px;
+}
+
+.due-container>input {
+  height: 1.6rem;
+  background-color: transparent;
+  border: solid 1px rgba(128, 128, 128, 0.3);
+}
+
 
 @media only screen and (max-width: 700px){
   .navbar {
