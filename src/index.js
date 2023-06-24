@@ -11,11 +11,9 @@ import { fillData } from './utils';
 
 const loadPage = (data) => {
   const content = document.querySelector('.content');
-
   content.addEventListener('mouseover', function () {
     fillData(reProject(checkLocalData(data)), mainBody);
   });
-
   // NAVBAR
   makeNavbar(content);
   const mainBody = elMaker('div', content, '', 'main-body');

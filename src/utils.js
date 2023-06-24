@@ -467,7 +467,7 @@ const fillData = (data, parent) => {
     'add-project-container'
   );
   addButton(data, addProjectContainer, ['name']);
-  addProjectContainer.addEventListener('mouseup', function (e) {
+  addProjectContainer.addEventListener('mouseover', function (e) {
     e.stopPropagation();
   });
 };

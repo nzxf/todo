@@ -285,12 +285,12 @@ input,
   position: relative;
   font-size: 2rem;
   color: rgb(92, 92, 92);
-  top: -22px;
+  top: -50px;
   left: -2px;
 }
 
 .checkbox-container > input {
-  display: none;
+  visibility: hidden;
 }
 
 .list-title {
@@ -375,7 +375,7 @@ input,
   position: relative;
   font-size: 2rem;
   color: rgba(92, 92, 92, 0.3);
-  top: -21px;
+  top: -50px;
   left: -2px;
 }
 
