@@ -25,6 +25,7 @@ const deleteButton = (data, parent, targetArr, targetIndex) => {
     fillData(reProject(data), document.querySelector('.main-body')); // FILL MAINBODY NEW DATA
   });
 };
+// INPUT: PRIORITY
 const priorityMaker = (parent, scaleArray, defaultScale) => {
   const priorityContainer = elMaker('div', parent, '', 'priority-container');
   const priority = elMaker('div', priorityContainer, 'Priority:', 'priority');
@@ -56,7 +57,7 @@ const priorityMaker = (parent, scaleArray, defaultScale) => {
     }
   }
 };
-
+// INPUT: DUE
 const dueMaker = (parent) => {
   const dueContainer = elMaker('div', parent, '', 'due-container');
   const dueIn = elMaker('div', dueContainer, 'Due in:');
@@ -73,6 +74,7 @@ const dueMaker = (parent) => {
   dayInput.setAttribute('max', '30');
   const dayLabel = elMaker('label', dueContainer, 'day(s)', 'day-label');
 };
+//PROCESS RAW TIME & DATE
 const dueTranslator = (hourInput, dayInput) => {
   if (hourInput == 0 && dayInput == 0) {
     return [0, 0, 0, 0, 0];
@@ -95,9 +97,9 @@ const dueTranslator = (hourInput, dayInput) => {
     return newTime.concat(newDate);
   }
 };
-
+// INPUT: STATUS
 const checkboxMaker = (data, parent, indextProject, indexList) => {
-  const checkboxContainer = elMaker('form', parent, '', 'checkbox-container');
+  const checkboxContainer = elMaker('label', parent, '', 'checkbox-container');
   const checkbox = elMaker('input', checkboxContainer, '', 'checkbox');
   checkbox.setAttribute('data-project', indextProject)
   checkbox.setAttribute('data-list', indexList)
@@ -138,8 +140,7 @@ const addInput = (data, parent, classNameArray, indexProject) => {
     );
     input.placeholder = `project ${classNameArray[0]}`;
   } else {
-    for (let i = 0; i < classNameArray.length - 1; i++) {
-      // remove (-1) to include due
+    for (let i = 0; i < classNameArray.length; i++) {
       const input = elMaker(
         'input',
         addInputContainer,
@@ -172,7 +173,7 @@ const submitAddButton = (data, parent, indexProject) => {
       const nameInput = document.querySelector('.name-input').value;
       // Avoid empty input
       if (nameInput === '') {
-        data.push({ name: 'empty', content: [] });
+        data.push({ name: 'new project', content: [] });
       } else {
         // Normal Input
         data.push({
@@ -192,8 +193,8 @@ const submitAddButton = (data, parent, indexProject) => {
       // Avoid empty input
       if (titleInput === '' && textInput === '') {
         data[indexProject].content.push({
-          title: '',
-          text: 'empty',
+          title: 'new task',
+          text: '',
           priority: priorityInput,
           status: 'on progress',
           created: timeCreation(),
@@ -237,7 +238,7 @@ const editButton = (data, parent, indexProject, indexList) => {
       editInput(
         data,
         listContainerX,
-        ['title', 'text', 'due'],
+        ['title', 'text'],
         indexProject,
         indexList
       );
@@ -255,9 +256,9 @@ const editInput = (data, parent, classNameArray, indexProject, indexList) => {
       'input'
     );
     input.value = data[indexProject][classNameArray[0]];
+    input.placeholder = 'project name';
   } else {
-    for (let i = 0; i < classNameArray.length - 1; i++) {
-      // minus 1 = due
+    for (let i = 0; i < classNameArray.length; i++) {
       const input = elMaker(
         'input',
         editInputContainer,
@@ -266,6 +267,7 @@ const editInput = (data, parent, classNameArray, indexProject, indexList) => {
         'input'
       );
       input.value = data[indexProject].content[indexList][classNameArray[i]];
+      input.placeholder = classNameArray[i]
     }
     priorityMaker(
       editInputContainer,
@@ -385,17 +387,18 @@ const fillData = (data, parent) => {
           'button-container',
           'hidden'
         );
-        checkboxMaker(data, buttonContainer, i, j)
         editButton(data, buttonContainer, i, j);
         deleteButton(data, buttonContainer, data[i].content, j);
         // MID LIST
         const midList = elMaker('div', listContainer, '', 'mid-list');
+        checkboxMaker(data, midList, i, j)
         elMaker(
           'div',
           midList,
           upperFirst(data[i].content[j].title),
           'list-title'
         );
+
         elMaker(
           'div',
           midList,
@@ -447,7 +450,7 @@ const fillData = (data, parent) => {
       '',
       'bottom-project'
     );
-    addButton(data, bottomProject, ['title', 'text', 'due'], i);
+    addButton(data, bottomProject, ['title', 'text'], i);
     bottomProject.addEventListener('click', function (e) {
       e.stopPropagation();
     });
