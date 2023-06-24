@@ -370,6 +370,7 @@ const fillData = (data, parent) => {
 
     // MID PROJECT: SHOW ALL TASKS
     const midProject = elMaker('div', projectContainer, '', 'mid-project');
+    midProject.addEventListener('mouseover', (e) => e.stopPropagation());
     if (data[i].content) {
       for (let j = 0; j < data[i].content.length; j++) {
         const listContainer = elMaker(
@@ -380,6 +381,7 @@ const fillData = (data, parent) => {
           `list-container-${i}-${j}`,
           `priority-${data[i].content[j].priority}`
         );
+        listContainer.addEventListener('click', (e) => e.stopPropagation());
         // TOP LIST
         // MID LIST
         const midList = elMaker('div', listContainer, '', 'mid-list');
@@ -467,7 +469,7 @@ const fillData = (data, parent) => {
   addButton(data, addProjectContainer, ['name']);
   addProjectContainer.addEventListener('mouseup', function (e) {
     e.stopPropagation();
-  });;
+  });
 };
 
 export { fillData };

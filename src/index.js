@@ -15,6 +15,7 @@ const loadPage = (data) => {
   content.addEventListener('mouseover', function () {
     fillData(reProject(checkLocalData(data)), mainBody);
   });
+
   // NAVBAR
   makeNavbar(content);
   const mainBody = elMaker('div', content, '', 'main-body');
