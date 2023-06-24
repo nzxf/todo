@@ -1,27 +1,9 @@
-@font-face {
-  font-family: 'myFont';
-  src: url('./fonts/font.ttf');
-}
-
-@font-face {
-  font-family: 'myFontBold';
-  src: url('./fonts/bold.ttf');
-}
-@font-face {
-  font-family: 'myFontMedium';
-  src: url('./fonts/medium.ttf');
-}
-@font-face {
-  font-family: 'myFontLight';
-  src: url('./fonts/light.ttf');
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
   border: 0;
   padding: 0;
-  font-family: 'myFontLight';
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 1rem;
   color: rgb(141, 141, 141);
 
@@ -74,7 +56,7 @@ body {
   padding-top: 3px;
   font-size: 1.5rem;
   color: rgba(255, 255, 255, 0.8);
-  font-family: 'myFontBold';
+  font-weight: 900;
 }
 
 .app-icon {
@@ -130,7 +112,7 @@ body {
 
 .project-name {
   width: 100%;
-  font-family: 'myFontBold';
+  font-weight: 700;
   font-size: 1.4rem;
   height: 32.5px;
   padding: 10px 2.5px 5px;
@@ -138,13 +120,19 @@ body {
 }
 
 .list-container,
-.add-input-container {
-  width: 100%;
+.add-input-container,
+.edit-input-container {
+  width: 255px;
   height: auto;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 10px;
 
   border-radius: 5px;
+}
+
+.list-container > .edit-input-container {
+  transform: translateX(-11.5px);
+  background-color: transparent;
 }
 
 .edit-button,
@@ -260,13 +248,12 @@ input,
 .checkbox-container {
   padding-top: 5px;
   grid-row: 1/3;
-  height: 12.5px;
-  width: 12.5px;
+  height: 12px;
+  width: 12px;
   border: solid 1px rgba(138, 138, 138, 0.3);
-  border-radius: 50%;
+  border-radius: 4px;
   transform: translate(-2px, 2.5px);
 }
-
 
 .checkbox-container:hover::after {
   content: '✓';
@@ -274,7 +261,7 @@ input,
   font-size: 2rem;
   color: rgb(92, 92, 92);
   top: -22px;
-  left: 1.5px;
+  left: -2px;
 }
 
 .checkbox-container > input {
@@ -282,17 +269,17 @@ input,
 }
 
 .list-title {
-  color: rgba(0, 0, 0, 0.7);
-  font-family: 'myFontMedium';
-  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 700;
+  font-size: 1.2rem;
   line-height: 1.5rem;
 }
 
 .list-text {
   grid-column: 2/3;
   grid-row: 2/3;
-  color: rgba(0, 0, 0, 0.5);
-  font-family: 'myFontLight';
+  color: rgba(0, 0, 0, 0.4);
+  font-weight: 500;
   line-height: 1.5rem;
 }
 
@@ -301,7 +288,7 @@ input,
   flex-direction: column;
   align-items: end;
   justify-content: end;
-  height: 5rem;
+  height: 6rem;
 }
 
 .list-time,
@@ -310,8 +297,8 @@ input,
 .list-priority,
 .list-status {
   color: rgba(0, 0, 0, 0.3);
-  font-family: 'myFontLight';
-  font-size: 0.8rem;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .list-container {
@@ -344,7 +331,6 @@ input,
 .priority-zero {
   border-left: solid 0.5px rgba(97, 97, 97, 0.5);
   border-right: solid 7px rgba(97, 97, 97, 0.5);
-  /* background-color: rgba(107, 107, 107, 0.2); */
 }
 .priority-zero > .mid-list > .list-title,
 .priority-zero > .mid-list > .list-text {
@@ -361,10 +347,10 @@ input,
 .priority-zero > .mid-list > .checkbox-container::after {
   content: '✓';
   position: relative;
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: rgba(92, 92, 92, 0.3);
-  top: -19px;
-  left: 1.5px;
+  top: -21px;
+  left: -2px;
 }
 
 .priority-zero > .mid-list > .list-title::after {
@@ -403,7 +389,7 @@ input,
   transform: translateY(-0.3px);
 }
 .priority-input:hover {
-    background-color: rgba(201, 201, 201, 0.2);
+  background-color: rgba(201, 201, 201, 0.2);
 }
 
 .priority-input-low:checked {
