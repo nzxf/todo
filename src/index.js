@@ -12,7 +12,7 @@ import { fillData } from './utils';
 const loadPage = (data) => {
   const content = document.querySelector('.content');
 
-  content.addEventListener('click', function () {
+  content.addEventListener('mouseover', function () {
     fillData(reProject(checkLocalData(data)), mainBody);
   });
   // NAVBAR
