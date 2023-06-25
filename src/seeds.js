@@ -39,16 +39,21 @@ const addTask = (name, title, text, priority, status = 'on progress', due = [0,0
   }
 };
 
-// INPUT TESTER
-// (all mixed: upper+lowercase name)
-// Complete data
+// USER MANUAL
+addTask('Your new project', 'most important task', 'task is sorted based on its priority', 'high');
+addTask('Your new project', 'semi important', 'yellow task always goes after red', 'medium');
+addTask('Your new project', 'not really important', 'green color for low priority tasks', 'low', 'completed');
+addTask('Your new project', 'completed task', 'put a checkmark to set task as done', 'zero', 'completed');
+
+// INPUT TESTER 
+// full data (all mixed: upper+lowercase)
 addTask('personal', 'bookstore', 'Buy programming book', 'medium', 'on progress', [2, 23, 11, 5, 2023], [4, 23, 11, 5, 2023]);
 // no due date
 addTask('Personal', 'grocery', 'Bread, chips, and orange juice', 'low', 'on progress',[3, 54, 20, 9, 2023]);
 addTask('personal', 'Park', 'walk Shiro for 30 minutes', 'high','on progress', [2, 23, 11, 5, 2023]);
 // no created date & due date
-addTask('social', 'Collegue', 'go out for dinner with workmates', 'low', 'on progress');
-addTask('Social', 'BBQ', 'Prepare the upcoming BBQ party', 'low');
 addTask('personal', 'house cleaning', 'Do laundry and dishes', 'zero', 'complete');
+
+
 
 export { allProjects };
