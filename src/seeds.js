@@ -40,9 +40,9 @@ const addTask = (name, title, text, priority, status = 'on progress', due = [0,0
 };
 
 // USER MANUAL
-addTask('Your new project', 'most important task', 'task is sorted based on its priority', 'high');
+addTask('Your new project', 'most important', 'task is sorted based on its priority', 'high');
 addTask('Your new project', 'semi important', 'yellow task always goes after red', 'medium');
-addTask('Your new project', 'not really important', 'green color for low priority tasks', 'low', 'completed');
+addTask('Your new project', 'not really important', 'green color for low priority task', 'low', 'completed');
 addTask('Your new project', 'completed task', 'put a checkmark to set task as done', 'zero', 'completed');
 
 // INPUT TESTER 

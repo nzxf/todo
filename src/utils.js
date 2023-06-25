@@ -121,11 +121,13 @@ const checkboxMaker = (data, parent, indextProject, indexList) => {
 };
 // ADD SEQUENCE
 const addButton = (data, parent, classNameArray, indexProject) => {
-  const addContainer = elMaker('div', parent, '', 'add-container');
+  const addContainer = elMaker('div', parent, '', 'add-container', `add-container-${indexProject}`);
   const addBtn = elMaker('button', addContainer, '', 'add-button');
   addBtn.addEventListener('mouseup', function () {
-    childRemover(parent);
-    addInput(reProject(data), parent, classNameArray, indexProject);
+    fillData(data, document.querySelector('.main-body'));
+    const addContainerX = document.querySelector(`.add-container-${indexProject}`)
+    childRemover(addContainerX)
+    addInput(reProject(data), addContainerX, classNameArray, indexProject);
   });
 };
 const addInput = (data, parent, classNameArray, indexProject) => {
@@ -318,26 +320,6 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
     return fillData(reProject(data), document.querySelector('.main-body'));
   });
 };
-// HIDE OTHERS BUTTONS
-const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
-  container.addEventListener(trigger, function (e) {
-    e.stopPropagation();
-
-    const elements1 = document.querySelectorAll('.button-container');
-    elements1.forEach((element) => element.classList.add('hidden'));
-    // const elements2 = document.querySelectorAll('.bottom-list');
-    // elements2.forEach((element) => element.classList.add('hidden'));
-
-    if (document.querySelector('.hidden')) {
-      // elements1.classList.remove('hidden')
-      if (anotherElementName === undefined) {
-        return elementName.classList.toggle('hidden');
-      }
-      elementName.classList.remove('hidden');
-      anotherElementName.classList.toggle('hidden');
-    }
-  });
-};
 // DISPLAY DATA
 const fillData = (data, parent) => {
   childRemover(parent);
@@ -363,10 +345,18 @@ const fillData = (data, parent) => {
       topProject,
       '',
       'button-container',
-      'hidden'
+      'invisible'
     );
     editButton(data, buttonContainer, i);
     deleteButton(data, buttonContainer, data, i);
+    // SHOW BUTTONS
+    topProject.addEventListener('mouseover', () => {
+      buttonContainer.classList.remove('invisible');
+    });
+    // HIDE BUTTONS
+    topProject.addEventListener('mouseleave', () => {
+      buttonContainer.classList.add('invisible');
+    });
 
     // MID PROJECT: SHOW ALL TASKS
     const midProject = elMaker('div', projectContainer, '', 'mid-project');
@@ -396,7 +386,7 @@ const fillData = (data, parent) => {
           midList,
           '',
           'button-container',
-          'hidden'
+          'invisible'
         );
         editButton(data, buttonContainer, i, j);
         deleteButton(data, buttonContainer, data[i].content, j);
@@ -438,8 +428,14 @@ const fillData = (data, parent) => {
           `${data[i].content[j].priority} priority`,
           'list-priority'
         );
-        // SHOW BUTTONS WHEN SELECTED
-        hideAllButOne(listContainer, 'mouseover', buttonContainer);
+        // SHOW BUTTONS
+        listContainer.addEventListener('mouseover', () => {
+          buttonContainer.classList.remove('invisible');
+        });
+        // HIDE BUTTONS
+        listContainer.addEventListener('mouseleave', () => {
+          buttonContainer.classList.add('invisible');
+        });
         // CLICK FOR TASK DETAILS
         listContainer.addEventListener('click', () => {
           bottomList.classList.toggle('hidden');
@@ -461,8 +457,6 @@ const fillData = (data, parent) => {
     bottomProject.addEventListener('mouseup', function (e) {
       e.stopPropagation();
     });
-    // SHOW BUTTONS WHEN SELECTED
-    hideAllButOne(projectContainer, 'mouseover', buttonContainer);
   }
   // ADD NEW PROJECT
   const addProjectContainer = elMaker(

@@ -44,7 +44,6 @@ const functions = (() => {
       return element;
     }
   };
-
   // CHILD REMOVER
   const childRemover = (parent) => {
     while (parent.hasChildNodes()) {

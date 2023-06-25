@@ -101,11 +101,25 @@ body {
   border-radius: 5px;
 }
 
+.add-project-container {
+  min-height: 97.5px;
+}
+
+.add-project-container > .add-container > .add-button {
+  min-height: 82.5px;
+  background-color: rgba(255, 255, 255, 0.541);
+  border-radius: 5px;
+}
+
 .top-project {
   display: grid;
   grid-template-columns: 1fr auto;
   column-gap: 10px;
   min-height: 30px;
+}
+
+.top-project > .button-container {
+  margin-top: 5px;
 }
 
 .project-name {
@@ -255,6 +269,7 @@ input,
 
 .mid-list > .button-container {
   grid-row: 1/2;
+  transform: translate(5px, -2px);
 }
 
 .mid-list > .list-text {
@@ -332,8 +347,10 @@ input,
 }
 
 .hidden {
-  height: 0px;
-  overflow: hidden;
+  display: none;
+}
+.invisible {
+  visibility: hidden;
 }
 
 /* COLOR SCHEME PRIORITY */
