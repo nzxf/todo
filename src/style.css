@@ -75,15 +75,6 @@ body {
   color: transparent;
 }
 
-/* .user-icon {
-  background-color: transparent;
-  border-radius: 50%;
-
-  width: 20px;
-  height: 20px;
-  margin: 0 5px;
-} */
-
 /* MAIN BODY */
 
 .main-body {
@@ -314,10 +305,9 @@ input,
   flex-direction: column;
   align-items: end;
   justify-content: end;
-  /* height: 6rem; */
+  height: auto;
 }
 
-.list-time,
 .list-date,
 .list-due,
 .list-priority,
@@ -325,6 +315,11 @@ input,
   color: rgba(0, 0, 0, 0.2);
   font-weight: 500;
   font-size: 0.9rem;
+}
+
+.list-date {
+  border-top: solid 1px rgba(128, 128, 128, 0.1);
+  margin-top: 15px;
 }
 
 .list-container {

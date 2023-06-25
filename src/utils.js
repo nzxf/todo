@@ -222,6 +222,7 @@ const submitAddButton = (data, parent, indexProject) => {
 const editButton = (data, parent, indexProject, indexList) => {
   const editBtn = elMaker('button', parent, '', 'edit-button');
   editBtn.addEventListener('mouseup', function () {
+    fillData(data, document.querySelector('.main-body'));
     // PROJECT
     if (indexList == undefined) {
       const topProjectX = document.querySelector(
@@ -324,8 +325,8 @@ const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
 
     const elements1 = document.querySelectorAll('.button-container');
     elements1.forEach((element) => element.classList.add('hidden'));
-    const elements2 = document.querySelectorAll('.bottom-list');
-    elements2.forEach((element) => element.classList.add('hidden'));
+    // const elements2 = document.querySelectorAll('.bottom-list');
+    // elements2.forEach((element) => element.classList.add('hidden'));
 
     if (document.querySelector('.hidden')) {
       // elements1.classList.remove('hidden')
@@ -337,7 +338,6 @@ const hideAllButOne = (container, trigger, elementName, anotherElementName) => {
     }
   });
 };
-
 // DISPLAY DATA
 const fillData = (data, parent) => {
   childRemover(parent);
@@ -381,7 +381,6 @@ const fillData = (data, parent) => {
           `list-container-${i}-${j}`,
           `priority-${data[i].content[j].priority}`
         );
-        listContainer.addEventListener('click', (e) => e.stopPropagation());
         // TOP LIST
         // MID LIST
         const midList = elMaker('div', listContainer, '', 'mid-list');
@@ -415,34 +414,40 @@ const fillData = (data, parent) => {
           'bottom-list',
           'hidden'
         );
-        // const listTime = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'time'), 'list-time');
-        // const listDate = elMaker('div', bottomList, displayTime(data[i].content[j].created, 'date'), 'list-date');
-        // elMaker(
-        //   'div',
-        //   bottomList,
-        //   `created ${displayTime(data[i].content[j].created)}`,
-        //   'list-date'
-        // );
-        // elMaker(
-        //   'div',
-        //   bottomList,
-        //   `due ${displayTime(data[i].content[j].due)}`,
-        //   'list-due'
-        // );
-        // elMaker(
-        //   'div',
-        //   bottomList,
-        //   `status: ${data[i].content[j].status}`,
-        //   'list-status'
-        // );
-        // elMaker(
-        //   'div',
-        //   bottomList,
-        //   `${data[i].content[j].priority} priority`,
-        //   'list-priority'
-        // );
+        elMaker(
+          'div',
+          bottomList,
+          `created ${displayTime(data[i].content[j].created)}`,
+          'list-date'
+        );
+        elMaker(
+          'div',
+          bottomList,
+          `due ${displayTime(data[i].content[j].due)}`,
+          'list-due'
+        );
+        elMaker(
+          'div',
+          bottomList,
+          `status: ${data[i].content[j].status}`,
+          'list-status'
+        );
+        elMaker(
+          'div',
+          bottomList,
+          `${data[i].content[j].priority} priority`,
+          'list-priority'
+        );
         // SHOW BUTTONS WHEN SELECTED
-        hideAllButOne(listContainer, 'mouseover', buttonContainer, bottomList);
+        hideAllButOne(listContainer, 'mouseover', buttonContainer);
+        // CLICK FOR TASK DETAILS
+        listContainer.addEventListener('click', () => {
+          bottomList.classList.toggle('hidden');
+        });
+        // AUTO CLOSE DETAILS
+        listContainer.addEventListener('mouseleave', () => {
+          bottomList.classList.add('hidden');
+        });
       }
     }
     // BOTTOM PROJECT: ADD NEW TASK

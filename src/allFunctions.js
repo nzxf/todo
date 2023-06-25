@@ -27,7 +27,9 @@ const functions = (() => {
     } else if (string === 'date') {
       return timeArray.slice(2).join('/');
     } else {
-      return `⏰ ${timeArray.slice(0, 2).join(':')} 📇 ${timeArray.slice(2).join('/')}`;
+      return `⏰ ${timeArray.slice(0, 2).join(':')} 📇 ${timeArray
+        .slice(2)
+        .join('/')}`;
     }
   };
   // ELEMENT MAKER
@@ -60,7 +62,7 @@ const functions = (() => {
     const usericon = elMaker('div', navEnd, '', 'user-icon');
     const userName = elMaker('div', navEnd, 'nzxf', 'user-name');
   };
-
+  // RECONSTRUCT ARRAY BASED ON PRIORITY LEVEL
   const reList = (originalLists, scaleBasedOn) => {
     let updatedList = [];
     for (let i = 0; i < scaleBasedOn.length; i++) {
@@ -76,7 +78,12 @@ const functions = (() => {
     for (let i = 0; i < originalProjects.length; i++) {
       updatedProjects.push({
         name: originalProjects[i].name,
-        content: reList(originalProjects[i].content, ['high', 'medium', 'low', 'zero']),
+        content: reList(originalProjects[i].content, [
+          'high',
+          'medium',
+          'low',
+          'zero',
+        ]),
       });
     }
     return updatedProjects;
