@@ -14,17 +14,51 @@ const cancelButton = (data, parent) => {
   });
 };
 // DELETE
-const deleteButton = (data, parent, targetArr, targetIndex) => {
+const deleteButton = (data, parent, indexProject, indexList) => {
   const deleteBtn = elMaker('button', parent, '', 'delete-button');
+  // CONFIRM PROJECT DELETION
   deleteBtn.addEventListener('mouseup', function () {
-    // DELETE THE DATA
-    targetArr.splice(targetIndex, 1);
-    // SAVED USER DATA
-    localStorage.setItem('user', JSON.stringify(data));
-    // UPDATE DATA DISPLAY
-    fillData(reProject(data), document.querySelector('.main-body')); // FILL MAINBODY NEW DATA
+  // DELETING PROJECT
+    if (indexList === undefined) {
+      // CLEAR PARENT
+      const topProjectX = document.querySelector(`.top-project-${indexProject}`);
+      childRemover(topProjectX);
+      // CONFIRM DELETION PROMPT
+      const confirmContainer = elMaker('div', topProjectX, '', 'confirm-container');
+      elMaker('div', confirmContainer, `Delete '${upperFirst(data[indexProject].name)}' project?`, 'confirm-text');
+      // CONFIRM DELETION BUTTONS
+      const buttonContainer = elMaker('div', confirmContainer, '', 'confirm-cancel-container')
+      cancelButton(data, buttonContainer);
+      const confirmButton = elMaker('div', buttonContainer,'','confirm-button');
+      confirmButton.addEventListener('mouseup', () => deleteData(data, indexProject, indexList));
+    } else {
+      const listContainerX = document.querySelector(`.list-container-${indexProject}-${indexList}`);
+      childRemover(listContainerX);
+      // CONFIRM DELETION PROMPT
+      const confirmContainer = elMaker('div', listContainerX, '', 'confirm-container');
+      elMaker('div', confirmContainer, `Delete '${upperFirst(data[indexProject].content[indexList].title)}' task?`, 'confirm-text');
+      // CONFIRM DELETION BUTTONS
+      const buttonContainer = elMaker('div', confirmContainer, '', 'confirm-cancel-container')
+      cancelButton(data, buttonContainer);
+      const confirmButton = elMaker('div', buttonContainer,'','confirm-button');
+      confirmButton.addEventListener('mouseup', () => deleteData(data, indexProject, indexList));
+    }
   });
 };
+const deleteData = (data, indexProject, indexList) => {
+  if (indexList === undefined) {
+    // DELETE PROJECT DATA
+    data.splice(indexProject, 1)
+  } else {
+    // DELETE TASK DATA
+    data[indexProject].content.splice(indexList, 1)
+  }
+  // SAVED USER DATA
+  localStorage.setItem('user', JSON.stringify(data));
+  // UPDATE DATA DISPLAY
+  fillData(reProject(data), document.querySelector('.main-body')); // FILL MAINBODY NEW DATA
+};
+
 // INPUT: PRIORITY
 const priorityMaker = (parent, scaleArray, defaultScale) => {
   const priorityContainer = elMaker('div', parent, '', 'priority-container');
@@ -121,12 +155,20 @@ const checkboxMaker = (data, parent, indextProject, indexList) => {
 };
 // ADD SEQUENCE
 const addButton = (data, parent, classNameArray, indexProject) => {
-  const addContainer = elMaker('div', parent, '', 'add-container', `add-container-${indexProject}`);
+  const addContainer = elMaker(
+    'div',
+    parent,
+    '',
+    'add-container',
+    `add-container-${indexProject}`
+  );
   const addBtn = elMaker('button', addContainer, '', 'add-button');
   addBtn.addEventListener('mouseup', function () {
     fillData(data, document.querySelector('.main-body'));
-    const addContainerX = document.querySelector(`.add-container-${indexProject}`)
-    childRemover(addContainerX)
+    const addContainerX = document.querySelector(
+      `.add-container-${indexProject}`
+    );
+    childRemover(addContainerX);
     addInput(reProject(data), addContainerX, classNameArray, indexProject);
   });
 };
@@ -157,14 +199,14 @@ const addInput = (data, parent, classNameArray, indexProject) => {
   }
 
   // CANCEL AND CONFIRM
-  const bottonContainer = elMaker(
+  const buttonContainer = elMaker(
     'div',
     addInputContainer,
     '',
     'submit-cancel-container'
   );
-  cancelButton(data, bottonContainer);
-  submitAddButton(data, bottonContainer, indexProject);
+  cancelButton(data, buttonContainer);
+  submitAddButton(data, buttonContainer, indexProject);
 };
 const submitAddButton = (data, parent, indexProject) => {
   const submit = elMaker('button', parent, '', 'submit-button');
@@ -280,14 +322,14 @@ const editInput = (data, parent, classNameArray, indexProject, indexList) => {
     dueMaker(editInputContainer);
   }
 
-  const bottonContainer = elMaker(
+  const buttonContainer = elMaker(
     'div',
     editInputContainer,
     '',
     'submit-cancel-container'
   );
-  cancelButton(data, bottonContainer);
-  submitEditButton(reProject(data), bottonContainer, indexProject, indexList);
+  cancelButton(data, buttonContainer);
+  submitEditButton(reProject(data), buttonContainer, indexProject, indexList);
 };
 const submitEditButton = (data, parent, indexProject, indexList) => {
   const submit = elMaker('button', parent, '', 'submit-button');
@@ -348,7 +390,7 @@ const fillData = (data, parent) => {
       'invisible'
     );
     editButton(data, buttonContainer, i);
-    deleteButton(data, buttonContainer, data, i);
+    deleteButton(data, buttonContainer, i);
     // SHOW BUTTONS
     topProject.addEventListener('mouseover', () => {
       buttonContainer.classList.remove('invisible');
@@ -389,7 +431,7 @@ const fillData = (data, parent) => {
           'invisible'
         );
         editButton(data, buttonContainer, i, j);
-        deleteButton(data, buttonContainer, data[i].content, j);
+        deleteButton(data, buttonContainer, i, j);
         elMaker(
           'div',
           midList,
@@ -438,12 +480,10 @@ const fillData = (data, parent) => {
         });
         // CLICK FOR TASK DETAILS
         listContainer.addEventListener('click', () => {
+          const bottomLists = document.querySelectorAll('.bottom-list');
+          // bottomLists.forEach(el=>el.classList.add('hidden'))
           bottomList.classList.toggle('hidden');
         });
-        // AUTO CLOSE DETAILS?
-        // listContainer.addEventListener('mouseleave', () => {
-        //   bottomList.classList.add('hidden');
-        // });
       }
     }
     // BOTTOM PROJECT: ADD NEW TASK
@@ -472,6 +512,5 @@ const fillData = (data, parent) => {
 };
 
 export { fillData };
-
 
 // TODO: make delete confirmation
