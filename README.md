@@ -4,9 +4,15 @@ TODO is a to-do list app that allows you to create projects and add tasks within
 
 Enjoy managing your tasks and staying organized with TODO app!
 
-## Getting Started
+## How to
 
-You can access the web app by visiting https://nzxf.github.io/todo/. Simply open the link in your preferred web browser, and you will be able to use the to-do list application.
+You can access the web app by visiting:
+
+[An Internal Link](https://nzxf.github.io/todo/)
+or 
+[An Internal Link](https://doneitall.netlify.app)
+
+Simply open the link in your preferred web browser, and you will be able to use the to-do list application.
 
 ## Features
 
