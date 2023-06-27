@@ -106,11 +106,11 @@ const checkboxMaker = (data, parent, indextProject, indexList) => {
   checkbox.setAttribute('type', 'checkbox');
   checkbox.addEventListener('change', () => {
     let currentStatus = data[indextProject].content[indexList].status;
-    if (currentStatus === 'on progress') {
+    if (currentStatus === 'in progress') {
       data[indextProject].content[indexList].status = 'complete';
       data[indextProject].content[indexList].priority = 'zero';
     } else {
-      data[indextProject].content[indexList].status = 'on progress';
+      data[indextProject].content[indexList].status = 'in progress';
       data[indextProject].content[indexList].priority = 'low';
     }
     // SAVED USER DATA
@@ -198,7 +198,7 @@ const submitAddButton = (data, parent, indexProject) => {
           title: 'new task',
           text: '',
           priority: priorityInput,
-          status: 'on progress',
+          status: 'in progress',
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
@@ -208,7 +208,7 @@ const submitAddButton = (data, parent, indexProject) => {
           title: titleInput,
           text: textInput,
           priority: priorityInput,
-          status: 'on progress',
+          status: 'in progress',
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
@@ -309,7 +309,7 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
         title: document.querySelector('.title-input').value,
         text: document.querySelector('.text-input').value,
         priority: document.querySelector('.priority:checked').value,
-        status: 'on progress',
+        status: 'in progress',
         created: timeCreation(),
         due: dueTranslator(dueTimeInput, dueDayInput),
       });
@@ -440,10 +440,10 @@ const fillData = (data, parent) => {
         listContainer.addEventListener('click', () => {
           bottomList.classList.toggle('hidden');
         });
-        // AUTO CLOSE DETAILS
-        listContainer.addEventListener('mouseleave', () => {
-          bottomList.classList.add('hidden');
-        });
+        // AUTO CLOSE DETAILS?
+        // listContainer.addEventListener('mouseleave', () => {
+        //   bottomList.classList.add('hidden');
+        // });
       }
     }
     // BOTTOM PROJECT: ADD NEW TASK
@@ -472,3 +472,6 @@ const fillData = (data, parent) => {
 };
 
 export { fillData };
+
+
+// TODO: make delete confirmation

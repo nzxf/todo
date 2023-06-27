@@ -9,7 +9,7 @@ const Project = (name, content) => {
 
 let allProjects = [];
 
-const addTask = (name, title, text, priority, status = 'on progress', due = [0,0,0,0,0], created = timeCreation()) => {
+const addTask = (name, title, text, priority, status = 'in progress', due = [0,0,0,0,0], created = timeCreation()) => {
   if (allProjects.find((project) => project.name == name.toLowerCase())) {
     // console.log('Add it to the existed project');
     let projectIndex = allProjects.findIndex((project) => project.name === name.toLowerCase());
@@ -47,10 +47,10 @@ addTask('Your new project', 'completed task', 'put a checkmark to set task as do
 
 // INPUT TESTER 
 // full data (all mixed: upper+lowercase)
-addTask('personal', 'bookstore', 'Buy programming book', 'medium', 'on progress', [2, 23, 11, 5, 2023], [4, 23, 11, 5, 2023]);
+addTask('personal', 'bookstore', 'Buy programming book', 'medium', 'in progress', [2, 23, 11, 5, 2023], [4, 23, 11, 5, 2023]);
 // no due date
-addTask('Personal', 'grocery', 'Bread, chips, and orange juice', 'low', 'on progress',[3, 54, 20, 9, 2023]);
-addTask('personal', 'Park', 'walk Shiro for 30 minutes', 'high','on progress', [2, 23, 11, 5, 2023]);
+addTask('Personal', 'grocery', 'Bread, chips, and orange juice', 'low', 'in progress',[3, 54, 20, 9, 2023]);
+addTask('personal', 'Park', 'walk Shiro for 30 minutes', 'high','in progress', [2, 23, 11, 5, 2023]);
 // no created date & due date
 addTask('personal', 'house cleaning', 'Do laundry and dishes', 'zero', 'complete');
 
