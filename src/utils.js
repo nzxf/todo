@@ -18,47 +18,99 @@ const deleteButton = (data, parent, indexProject, indexList) => {
   const deleteBtn = elMaker('button', parent, '', 'delete-button');
   // CONFIRM PROJECT DELETION
   deleteBtn.addEventListener('mouseup', function () {
-  // DELETING PROJECT
+    // AVOID MULTIPLE DELETE CONFIRMATION
+    fillData(data, document.querySelector('.main-body'));
+    // DELETING PROJECT
     if (indexList === undefined) {
       // CLEAR PARENT
-      const topProjectX = document.querySelector(`.top-project-${indexProject}`);
+      const topProjectX = document.querySelector(
+        `.top-project-${indexProject}`
+      );
       childRemover(topProjectX);
       // CONFIRM DELETION PROMPT
-      const confirmContainer = elMaker('div', topProjectX, '', 'confirm-container');
-      elMaker('div', confirmContainer, `Delete '${upperFirst(data[indexProject].name)}' project?`, 'confirm-text');
+      const confirmContainer = elMaker(
+        'div',
+        topProjectX,
+        '',
+        'confirm-container'
+      );
+      elMaker(
+        'div',
+        confirmContainer,
+        `Delete '${upperFirst(data[indexProject].name)}' project and all the tasks inside it?`,
+        'confirm-text'
+      );
       // CONFIRM DELETION BUTTONS
-      const buttonContainer = elMaker('div', confirmContainer, '', 'confirm-cancel-container')
+      const buttonContainer = elMaker(
+        'div',
+        confirmContainer,
+        '',
+        'confirm-cancel-container'
+      );
       cancelButton(data, buttonContainer);
-      const confirmButton = elMaker('div', buttonContainer,'','confirm-button');
-      confirmButton.addEventListener('mouseup', () => deleteData(data, indexProject, indexList));
+      const confirmButton = elMaker(
+        'div',
+        buttonContainer,
+        '',
+        'confirm-button'
+      );
+      confirmButton.addEventListener('mouseup', () =>
+        deleteData(data, indexProject, indexList)
+      );
     } else {
-      const listContainerX = document.querySelector(`.list-container-${indexProject}-${indexList}`);
+      // CLEAR PARENT
+      const listContainerX = document.querySelector(
+        `.list-container-${indexProject}-${indexList}`
+      );
       childRemover(listContainerX);
       // CONFIRM DELETION PROMPT
-      const confirmContainer = elMaker('div', listContainerX, '', 'confirm-container');
-      elMaker('div', confirmContainer, `Delete '${upperFirst(data[indexProject].content[indexList].title)}' task?`, 'confirm-text');
+      const confirmContainer = elMaker(
+        'div',
+        listContainerX,
+        '',
+        'confirm-container'
+      );
+      elMaker(
+        'div',
+        confirmContainer,
+        `Delete '${upperFirst(
+          data[indexProject].content[indexList].title
+        )}' task?`,
+        'confirm-text'
+      );
       // CONFIRM DELETION BUTTONS
-      const buttonContainer = elMaker('div', confirmContainer, '', 'confirm-cancel-container')
+      const buttonContainer = elMaker(
+        'div',
+        confirmContainer,
+        '',
+        'confirm-cancel-container'
+      );
       cancelButton(data, buttonContainer);
-      const confirmButton = elMaker('div', buttonContainer,'','confirm-button');
-      confirmButton.addEventListener('mouseup', () => deleteData(data, indexProject, indexList));
+      const confirmButton = elMaker(
+        'div',
+        buttonContainer,
+        '',
+        'confirm-button'
+      );
+      confirmButton.addEventListener('mouseup', () =>
+        deleteData(data, indexProject, indexList)
+      );
     }
   });
 };
 const deleteData = (data, indexProject, indexList) => {
   if (indexList === undefined) {
     // DELETE PROJECT DATA
-    data.splice(indexProject, 1)
+    data.splice(indexProject, 1);
   } else {
     // DELETE TASK DATA
-    data[indexProject].content.splice(indexList, 1)
+    data[indexProject].content.splice(indexList, 1);
   }
   // SAVED USER DATA
   localStorage.setItem('user', JSON.stringify(data));
   // UPDATE DATA DISPLAY
   fillData(reProject(data), document.querySelector('.main-body')); // FILL MAINBODY NEW DATA
 };
-
 // INPUT: PRIORITY
 const priorityMaker = (parent, scaleArray, defaultScale) => {
   const priorityContainer = elMaker('div', parent, '', 'priority-container');
@@ -480,8 +532,8 @@ const fillData = (data, parent) => {
         });
         // CLICK FOR TASK DETAILS
         listContainer.addEventListener('click', () => {
-          const bottomLists = document.querySelectorAll('.bottom-list');
-          // bottomLists.forEach(el=>el.classList.add('hidden'))
+          // const bottomLists = document.querySelectorAll('.list-container .hidden');
+          // bottomLists.forEach((el) => el.classList.add('hidden'));
           bottomList.classList.toggle('hidden');
         });
       }
@@ -512,5 +564,3 @@ const fillData = (data, parent) => {
 };
 
 export { fillData };
-
-// TODO: make delete confirmation

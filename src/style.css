@@ -42,7 +42,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 15px;
-  padding: 10px 22.5px;
+  padding: 7.5px 22.5px;
 }
 
 .navbar > div {
@@ -93,7 +93,7 @@ body {
   height: fit-content;
   background-color: rgba(230, 230, 230, 0.9);
 
-  padding: 10px 10px;
+  padding: 10px;
 
   display: flex;
   flex-direction: column;
@@ -151,11 +151,6 @@ body {
   background-color: transparent;
 }
 
-/* .list-container {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-} */
-
 .edit-button,
 .delete-button {
   cursor: pointer;
@@ -195,8 +190,13 @@ body {
   display: flex;
 }
 
-.confirm-text {
+.confirm-text,
+.name-input {
   text-align: center;
+  font-weight: 700;
+  background-color: rgb(231, 231, 231);
+  height: fit-content;
+  padding: 5px;
 }
 
 .add-button,
@@ -389,9 +389,9 @@ input,
 .priority-zero > .mid-list > .button-container > .edit-button {
   display: none;
 }
-.priority-zero > .mid-list > .checkbox-container {
+/* .priority-zero > .mid-list > .checkbox-container {
   pointer-events: none;
-}
+} */
 
 .priority-zero > .mid-list > .checkbox-container::after {
   content: '✓';
