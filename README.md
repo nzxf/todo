@@ -8,9 +8,9 @@ Enjoy managing your tasks and staying organized with TODO app!
 
 You can access the web app by visiting:
 
-[An Internal Link](https://nzxf.github.io/todo/)
+[TODO](https://nzxf.github.io/todo/)
 or 
-[An Internal Link](https://doneitall.netlify.app)
+[DONE IT ALL](https://doneitall.netlify.app)
 
 Simply open the link in your preferred web browser, and you will be able to use the to-do list application.
 
@@ -32,4 +32,4 @@ The app uses local storage to store user data. Whenever a change is made (e.g., 
 Please note that the local storage data is specific to the browser and device being used.
 
 ## Attributes
-Ux interface icons made by Prosymbols from www.flaticon.com.
+Ux interface icons made by Prosymbols from [Flaticon](www.flaticon.com).
