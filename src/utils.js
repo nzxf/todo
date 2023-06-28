@@ -192,12 +192,13 @@ const checkboxMaker = (data, parent, indextProject, indexList) => {
   checkbox.setAttribute('type', 'checkbox');
   checkbox.addEventListener('change', () => {
     let currentStatus = data[indextProject].content[indexList].status;
-    if (currentStatus === 'in progress') {
+    const listContainerX = document.querySelector(`.list-container-${indextProject}-${indexList}`)
+    if (currentStatus === 'in-progress') {
       data[indextProject].content[indexList].status = 'complete';
-      data[indextProject].content[indexList].priority = 'zero';
+      listContainerX.classList.replace('list-in-progress', 'list-complete')
     } else {
-      data[indextProject].content[indexList].status = 'in progress';
-      data[indextProject].content[indexList].priority = 'low';
+      data[indextProject].content[indexList].status = 'in-progress';
+      listContainerX.classList.replace('list-complete', 'list-in-progress',)
     }
     // SAVED USER DATA
     localStorage.setItem('user', JSON.stringify(data));
@@ -292,7 +293,7 @@ const submitAddButton = (data, parent, indexProject) => {
           title: 'new task',
           text: '',
           priority: priorityInput,
-          status: 'in progress',
+          status: 'in-progress',
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
@@ -302,7 +303,7 @@ const submitAddButton = (data, parent, indexProject) => {
           title: titleInput,
           text: textInput,
           priority: priorityInput,
-          status: 'in progress',
+          status: 'in-progress',
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
@@ -403,7 +404,7 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
         title: document.querySelector('.title-input').value,
         text: document.querySelector('.text-input').value,
         priority: document.querySelector('.priority:checked').value,
-        status: 'in progress',
+        status: 'in-progress',
         created: timeCreation(),
         due: dueTranslator(dueTimeInput, dueDayInput),
       });
@@ -463,7 +464,8 @@ const fillData = (data, parent) => {
           '',
           'list-container',
           `list-container-${i}-${j}`,
-          `priority-${data[i].content[j].priority}`
+          `priority-${data[i].content[j].priority}`,
+          `list-${data[i].content[j].status}`
         );
         // TOP LIST
         // MID LIST
