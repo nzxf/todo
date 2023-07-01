@@ -6,15 +6,14 @@ const childRemover = functions.childRemover;
 const displayTime = functions.displayTime;
 const reProject = functions.reProject;
 
+// NOTIFICATION
 const notify = (text) => {
-  const content = document.querySelector('.content');
-  const notifContainer = elMaker('div', content, '', 'notif-container');
-  elMaker('p', notifContainer, text, 'notif');
+  const notifContainer = document.querySelector('.notif-container')
+  const notif = elMaker('p', notifContainer, text, `notif`);
   setTimeout(() => {
-    content.removeChild(notifContainer);
-  }, 3000);
+    notifContainer.removeChild(notif);
+  }, 4000);
 };
-
 // CANCEL
 const cancelButton = (data, parent) => {
   const cancel = elMaker('div', parent, '', 'cancel-button');
@@ -112,11 +111,15 @@ const deleteButton = (data, parent, indexProject, indexList) => {
 const deleteData = (data, indexProject, indexList) => {
   if (indexList === undefined) {
     // DELETE PROJECT DATA
-    notify(`Successfully delete '${data[indexProject].name}' and all of its contents`);
+    notify(
+      `Successfully deleted '${data[indexProject].name}' and all of its contents`
+    );
     data.splice(indexProject, 1);
   } else {
     // DELETE TASK DATA
-    notify(`Successfully delete '${data[indexProject].content[indexList].title}' from '${data[indexProject].name}'`);
+    notify(
+      `Successfully deleted '${data[indexProject].content[indexList].title}' from '${data[indexProject].name}'`
+    );
     data[indexProject].content.splice(indexList, 1);
   }
   // SAVED USER DATA
@@ -209,9 +212,11 @@ const checkboxMaker = (data, parent, indextProject, indexList) => {
       `.list-container-${indextProject}-${indexList}`
     );
     if (currentStatus === 'in-progress') {
+      notify(`Successfully set '${data[indextProject].content[indexList].title}' as complete`)
       data[indextProject].content[indexList].status = 'complete';
       listContainerX.classList.replace('list-in-progress', 'list-complete');
     } else {
+      notify(`Successfully set '${data[indextProject].content[indexList].title}' back to in-progress`)
       data[indextProject].content[indexList].status = 'in-progress';
       listContainerX.classList.replace('list-complete', 'list-in-progress');
     }
@@ -286,14 +291,14 @@ const submitAddButton = (data, parent, indexProject) => {
       // Avoid empty input
       if (nameInput === '') {
         data.push({ name: 'new project', content: [] });
-        notify('Successfully added a new project')
+        notify('Successfully added a new project');
       } else {
         // Normal Input
         data.push({
           name: nameInput,
           content: [],
         });
-        notify(`Successfully added a new project named '${nameInput}'`)
+        notify(`Successfully added a new project named '${nameInput}'`);
       }
     }
     // ADD LIST
@@ -314,7 +319,9 @@ const submitAddButton = (data, parent, indexProject) => {
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
-        notify(`Successfully added a new task inside '${data[indexProject].name}'`)
+        notify(
+          `Successfully added a new task to '${data[indexProject].name}'`
+        );
       } else {
         // normal input
         data[indexProject].content.push({
@@ -325,7 +332,9 @@ const submitAddButton = (data, parent, indexProject) => {
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
-        notify(`Successfully added a new task named '${titleInput}' inside '${data[indexProject].name}'`)
+        notify(
+          `Successfully added a task named '${titleInput}' to '${data[indexProject].name}'`
+        );
       }
     }
     // SAVED USER DATA
@@ -411,8 +420,10 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
     event.preventDefault();
     // EDIT PROJECT
     if (indexList == undefined) {
-      const inputValue = document.querySelector('.name-input').value
-      notify(`Successfully changed '${data[indexProject].name}' into '${inputValue}'`)
+      const inputValue = document.querySelector('.name-input').value;
+      notify(
+        `Successfully changed '${data[indexProject].name}' into '${inputValue}'`
+      );
       data.splice(indexProject, 1, {
         name: inputValue,
         content: data[indexProject].content,
@@ -422,8 +433,10 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
     else {
       const dueTimeInput = document.querySelector('.time-input').value;
       const dueDayInput = document.querySelector('.day-input').value;
-      const inputTitle = document.querySelector('.title-input').value
-      notify(`Successfully changed '${data[indexProject].content[indexList].title}' into '${inputTitle}'`)
+      const inputTitle = document.querySelector('.title-input').value;
+      notify(
+        `Successfully changed '${data[indexProject].content[indexList].title}' into '${inputTitle}'`
+      );
 
       data[indexProject].content.splice(indexList, 1, {
         title: inputTitle,

@@ -397,6 +397,7 @@ input,
   color: rgba(128, 128, 128, 0.8);
   top: -50px;
   left: -2px;
+  z-index: 1;
 }
 
 .list-complete {
@@ -421,6 +422,7 @@ input,
   border-radius: 5px;
   background-color: rgba(128, 128, 128, 0.4);
   color: white;
+  z-index: 1;
 }
 
 /* PRIORITY INPUT */
@@ -477,22 +479,27 @@ input,
 }
 
 .notif-container {
+  cursor: default;
   position: fixed;
+  height: auto;
   right: 15px;
   top: 55px;
-  width: 250px;
-  padding: 20px;
-  background-color: rgb(80, 80, 80);
-  border-left: solid 0.5px rgba(127, 255, 212, 0.8);
-  border-right: solid 7px rgba(127, 255, 212, 0.8);
-  border-radius: 7.5px;
-  opacity: .9;
-  text-align: center;
+  display: flex;
+  flex-direction: column;  
+  gap: 5px;
+  z-index: 2;
 }
 
 .notif {
+  width: 250px;
+  padding: 20px;
   font-size: 1.1rem;
-  color: rgb(255, 255, 255);
+  color: white;
+  background-color: rgb(80, 80, 80);
+  border: solid 1px white;
+  border-radius: 7.5px;
+  opacity: .95;
+  text-align: center;
 }
 
 @media only screen and (max-width: 700px) {
