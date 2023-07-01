@@ -6,6 +6,15 @@ const childRemover = functions.childRemover;
 const displayTime = functions.displayTime;
 const reProject = functions.reProject;
 
+const notify = (text) => {
+  const content = document.querySelector('.content');
+  const notifContainer = elMaker('div', content, '', 'notif-container');
+  elMaker('p', notifContainer, text, 'notif');
+  setTimeout(() => {
+    content.removeChild(notifContainer);
+  }, 3000);
+};
+
 // CANCEL
 const cancelButton = (data, parent) => {
   const cancel = elMaker('div', parent, '', 'cancel-button');
@@ -37,7 +46,9 @@ const deleteButton = (data, parent, indexProject, indexList) => {
       elMaker(
         'div',
         confirmContainer,
-        `Delete '${upperFirst(data[indexProject].name)}' project and all the tasks inside it?`,
+        `Delete '${upperFirst(
+          data[indexProject].name
+        )}' project and all the tasks inside it?`,
         'confirm-text'
       );
       // CONFIRM DELETION BUTTONS
@@ -101,9 +112,11 @@ const deleteButton = (data, parent, indexProject, indexList) => {
 const deleteData = (data, indexProject, indexList) => {
   if (indexList === undefined) {
     // DELETE PROJECT DATA
+    notify(`Successfully delete '${data[indexProject].name}' and all of its contents`);
     data.splice(indexProject, 1);
   } else {
     // DELETE TASK DATA
+    notify(`Successfully delete '${data[indexProject].content[indexList].title}' from '${data[indexProject].name}'`);
     data[indexProject].content.splice(indexList, 1);
   }
   // SAVED USER DATA
@@ -192,13 +205,15 @@ const checkboxMaker = (data, parent, indextProject, indexList) => {
   checkbox.setAttribute('type', 'checkbox');
   checkbox.addEventListener('change', () => {
     let currentStatus = data[indextProject].content[indexList].status;
-    const listContainerX = document.querySelector(`.list-container-${indextProject}-${indexList}`)
+    const listContainerX = document.querySelector(
+      `.list-container-${indextProject}-${indexList}`
+    );
     if (currentStatus === 'in-progress') {
       data[indextProject].content[indexList].status = 'complete';
-      listContainerX.classList.replace('list-in-progress', 'list-complete')
+      listContainerX.classList.replace('list-in-progress', 'list-complete');
     } else {
       data[indextProject].content[indexList].status = 'in-progress';
-      listContainerX.classList.replace('list-complete', 'list-in-progress',)
+      listContainerX.classList.replace('list-complete', 'list-in-progress');
     }
     // SAVED USER DATA
     localStorage.setItem('user', JSON.stringify(data));
@@ -271,12 +286,14 @@ const submitAddButton = (data, parent, indexProject) => {
       // Avoid empty input
       if (nameInput === '') {
         data.push({ name: 'new project', content: [] });
+        notify('Successfully added a new project')
       } else {
         // Normal Input
         data.push({
           name: nameInput,
           content: [],
         });
+        notify(`Successfully added a new project named '${nameInput}'`)
       }
     }
     // ADD LIST
@@ -297,6 +314,7 @@ const submitAddButton = (data, parent, indexProject) => {
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
+        notify(`Successfully added a new task inside '${data[indexProject].name}'`)
       } else {
         // normal input
         data[indexProject].content.push({
@@ -307,6 +325,7 @@ const submitAddButton = (data, parent, indexProject) => {
           created: timeCreation(),
           due: dueTranslator(dueTimeInput, dueDayInput),
         });
+        notify(`Successfully added a new task named '${titleInput}' inside '${data[indexProject].name}'`)
       }
     }
     // SAVED USER DATA
@@ -345,6 +364,7 @@ const editButton = (data, parent, indexProject, indexList) => {
 };
 const editInput = (data, parent, classNameArray, indexProject, indexList) => {
   const editInputContainer = elMaker('div', parent, '', 'edit-input-container');
+  // EDIT PROJECT NAME
   if (classNameArray.includes('name')) {
     const input = elMaker(
       'input',
@@ -356,6 +376,7 @@ const editInput = (data, parent, classNameArray, indexProject, indexList) => {
     input.value = data[indexProject][classNameArray[0]];
     input.placeholder = 'project name';
   } else {
+    // EDIT TASK
     for (let i = 0; i < classNameArray.length; i++) {
       const input = elMaker(
         'input',
@@ -390,8 +411,10 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
     event.preventDefault();
     // EDIT PROJECT
     if (indexList == undefined) {
+      const inputValue = document.querySelector('.name-input').value
+      notify(`Successfully changed '${data[indexProject].name}' into '${inputValue}'`)
       data.splice(indexProject, 1, {
-        name: document.querySelector('.name-input').value,
+        name: inputValue,
         content: data[indexProject].content,
       });
     }
@@ -399,9 +422,11 @@ const submitEditButton = (data, parent, indexProject, indexList) => {
     else {
       const dueTimeInput = document.querySelector('.time-input').value;
       const dueDayInput = document.querySelector('.day-input').value;
+      const inputTitle = document.querySelector('.title-input').value
+      notify(`Successfully changed '${data[indexProject].content[indexList].title}' into '${inputTitle}'`)
 
       data[indexProject].content.splice(indexList, 1, {
-        title: document.querySelector('.title-input').value,
+        title: inputTitle,
         text: document.querySelector('.text-input').value,
         priority: document.querySelector('.priority:checked').value,
         status: 'in-progress',
