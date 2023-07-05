@@ -212,11 +212,11 @@ const checkboxMaker = (data, parent, indextProject, indexList) => {
       `.list-container-${indextProject}-${indexList}`
     );
     if (currentStatus === 'in-progress') {
-      notify(`Successfully set '${data[indextProject].content[indexList].title}' as complete`)
+      notify(`You just completed '${data[indextProject].content[indexList].title}' task. Well done!`)
       data[indextProject].content[indexList].status = 'complete';
       listContainerX.classList.replace('list-in-progress', 'list-complete');
     } else {
-      notify(`Successfully set '${data[indextProject].content[indexList].title}' back to in-progress`)
+      notify(`'${data[indextProject].content[indexList].title}' is not quite done yet. Set it back as in-progress`)
       data[indextProject].content[indexList].status = 'in-progress';
       listContainerX.classList.replace('list-complete', 'list-in-progress');
     }
